@@ -111,54 +111,54 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SCAF-01 | — | Pending |
-| SCAF-02 | — | Pending |
-| SCAF-03 | — | Pending |
-| SCAF-04 | — | Pending |
-| SCAF-05 | — | Pending |
-| SCAF-06 | — | Pending |
-| SCAF-07 | — | Pending |
-| SCAF-08 | — | Pending |
-| SCAF-09 | — | Pending |
-| SCAF-10 | — | Pending |
-| PARS-01 | — | Pending |
-| PARS-02 | — | Pending |
-| PARS-03 | — | Pending |
-| PARS-04 | — | Pending |
-| PARS-05 | — | Pending |
-| PARS-06 | — | Pending |
-| EXPR-01 | — | Pending |
-| EXPR-02 | — | Pending |
-| EXPR-03 | — | Pending |
-| EXPR-04 | — | Pending |
-| EXPR-05 | — | Pending |
-| EXPR-06 | — | Pending |
-| EXPR-07 | — | Pending |
-| EXPR-08 | — | Pending |
-| DAG-01 | — | Pending |
-| DAG-02 | — | Pending |
-| DAG-03 | — | Pending |
-| DAG-04 | — | Pending |
-| IMPT-01 | — | Pending |
-| IMPT-02 | — | Pending |
-| IMPT-03 | — | Pending |
-| IMPT-04 | — | Pending |
-| CLI-01 | — | Pending |
-| CLI-02 | — | Pending |
-| CLI-03 | — | Pending |
-| CLI-04 | — | Pending |
-| CLI-05 | — | Pending |
-| TEST-01 | — | Pending |
-| TEST-02 | — | Pending |
-| TEST-03 | — | Pending |
-| TEST-04 | — | Pending |
-| TEST-05 | — | Pending |
+| SCAF-01 | Phase 1 | Pending |
+| SCAF-02 | Phase 1 | Pending |
+| SCAF-03 | Phase 1 | Pending |
+| SCAF-04 | Phase 1 | Pending |
+| SCAF-05 | Phase 1 | Pending |
+| SCAF-06 | Phase 1 | Pending |
+| SCAF-07 | Phase 1 | Pending |
+| SCAF-08 | Phase 1 | Pending |
+| SCAF-09 | Phase 1 | Pending |
+| SCAF-10 | Phase 1 | Pending |
+| PARS-01 | Phase 3 | Pending |
+| PARS-02 | Phase 2 | Pending |
+| PARS-03 | Phase 4 | Pending |
+| PARS-04 | Phase 4 | Pending |
+| PARS-05 | Phase 4 | Pending |
+| PARS-06 | Phase 3 | Pending |
+| EXPR-01 | Phase 5 | Pending |
+| EXPR-02 | Phase 5 | Pending |
+| EXPR-03 | Phase 5 | Pending |
+| EXPR-04 | Phase 5 | Pending |
+| EXPR-05 | Phase 5 | Pending |
+| EXPR-06 | Phase 5 | Pending |
+| EXPR-07 | Phase 5 | Pending |
+| EXPR-08 | Phase 5 | Pending |
+| DAG-01 | Phase 6 | Pending |
+| DAG-02 | Phase 6 | Pending |
+| DAG-03 | Phase 6 | Pending |
+| DAG-04 | Phase 6 | Pending |
+| IMPT-01 | Phase 7 | Pending |
+| IMPT-02 | Phase 7 | Pending |
+| IMPT-03 | Phase 7 | Pending |
+| IMPT-04 | Phase 7 | Pending |
+| CLI-01 | Phase 8 | Pending |
+| CLI-02 | Phase 8 | Pending |
+| CLI-03 | Phase 8 | Pending |
+| CLI-04 | Phase 8 | Pending |
+| CLI-05 | Phase 8 | Pending |
+| TEST-01 | Phase 9 | Pending |
+| TEST-02 | Phase 9 | Pending |
+| TEST-03 | Phase 9 | Pending |
+| TEST-04 | Phase 9 | Pending |
+| TEST-05 | Phase 9 | Pending |
 
 **Coverage:**
 - v1 requirements: 42 total
-- Mapped to phases: 0
-- Unmapped: 42
+- Mapped to phases: 42
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-31*
-*Last updated: 2026-03-31 after initial definition*
+*Last updated: 2026-03-31 after roadmap creation*
