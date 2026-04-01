@@ -150,14 +150,12 @@ Plans:
   1. vitest coverage report shows 90%+ on parser, validator, expression engine, and DAG resolver modules
   2. Integration tests parse a real LOGIC.md file through the full pipeline: parse -> validate -> resolve DAG -> resolve imports -> compile
   3. Edge cases and error paths are covered (malformed files, circular deps, invalid expressions)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 09-01: TBD
-- [ ] 09-02: TBD
-- [ ] 09-03: TBD
-- [ ] 09-04: TBD
-- [ ] 09-05: TBD
+- [ ] 09-01-PLAN.md — Install coverage tooling, configure vitest, run baseline coverage and document gaps
+- [ ] 09-02-PLAN.md — Fill coverage gaps with targeted tests to reach 90%+ on parser, validator, expression, dag
+- [ ] 09-03-PLAN.md — Full pipeline integration tests (parse -> validate -> DAG -> imports -> expressions)
 
 ## Progress
 
@@ -175,4 +173,4 @@ Note: Phases 5 and 6 depend only on Phase 2 and can theoretically run in paralle
 | 6. DAG Resolver | 0/1 | Complete    | 2026-04-01 |
 | 7. Import Resolver | 0/2 | Complete    | 2026-04-01 |
 | 8. CLI | 0/2 | Complete    | 2026-04-01 |
-| 9. Test Coverage & Integration | 0/5 | Not started | - |
+| 9. Test Coverage & Integration | 0/3 | Not started | - |
