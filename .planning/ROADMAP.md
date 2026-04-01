@@ -145,7 +145,10 @@ Plans:
   1. ExecutionContext, CompiledStep, CompiledWorkflow, QualityGate, RetryPolicy, and WorkflowContext types exist in types.ts and are importable from packages/core
   2. A developer importing from packages/core can access all new types without reaching into internal paths
   3. The compiler module skeleton exists with function signatures that accept and return the new types (pure functions, no I/O)
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 10-01-PLAN.md -- Add compiler types to types.ts, create compiler.ts skeleton with pure-function stubs, update barrel exports
 
 ### Phase 11: Step Compiler Core
 **Goal**: A developer can compile any single step into a human-readable prompt segment that includes reasoning strategy, step instructions, and output format instructions
@@ -235,7 +238,7 @@ Note: Phase 13 depends on Phase 11 (not 12), so 12 and 13 can run in parallel af
 | 7. Import Resolver | v1.0 | 2/2 | Complete | 2026-04-01 |
 | 8. CLI | v1.0 | 2/2 | Complete | 2026-04-01 |
 | 9. Test Coverage & Integration | v1.0 | 3/3 | Complete | 2026-04-01 |
-| 10. Compiler Types & Foundation | v1.1 | 0/0 | Not started | - |
+| 10. Compiler Types & Foundation | v1.1 | 0/1 | In progress | - |
 | 11. Step Compiler Core | v1.1 | 0/0 | Not started | - |
 | 12. Step Compiler Context | v1.1 | 0/0 | Not started | - |
 | 13. Quality Gate Compilation | v1.1 | 0/0 | Not started | - |
