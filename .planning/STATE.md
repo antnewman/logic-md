@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-03-31)
 ## Current Position
 
 Phase: 9 of 9 (Test Coverage and Integration)
-Plan: 3 of 3 in current phase (09-03 complete)
+Plan: 2 of 3 in current phase (09-02 complete)
 Status: Executing Phase 09
-Last activity: 2026-03-31 -- Completed 09-03 integration tests
+Last activity: 2026-03-31 -- Completed 09-02 coverage gap tests
 
-Progress: [██████████] 100%
+Progress: [█████████░] 96%
 
 ## Performance Metrics
 
@@ -82,6 +82,7 @@ Recent decisions affecting current work:
 - [Phase 08]: Separate fixture files for validation errors vs lint warnings
 - [Phase 09]: Include imports.ts and schema.ts in coverage targets alongside four primary modules
 - [Phase 09]: 90% thresholds on all coverage metrics (lines, branches, functions, statements)
+- [Phase 09]: Defensive null-coalescing branches in parser.ts, DFS paths in dag.ts, and CJS interop in schema.ts are unreachable; accepted per-file gaps while global 90% threshold passes
 
 ### Pending Todos
 
@@ -94,5 +95,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-31
-Stopped at: Completed 09-03-PLAN.md
+Stopped at: Completed 09-02-PLAN.md
 Resume file: None
