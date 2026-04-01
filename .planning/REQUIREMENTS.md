@@ -1,8 +1,8 @@
 # Requirements: logic-md
 
 **Defined:** 2026-03-31
-**Updated:** 2026-04-02 (v1.1 milestone)
-**Core Value:** Developers can define agent reasoning strategies in a portable, declarative file format — parsed and validated by a standalone library with zero framework lock-in.
+**Updated:** 2026-04-02 (v1.1 roadmap mapped)
+**Core Value:** Developers can define agent reasoning strategies in a portable, declarative file format -- parsed and validated by a standalone library with zero framework lock-in.
 
 ## v1.1 Requirements (Reasoning Compiler)
 
@@ -13,7 +13,7 @@
 - [ ] **COMP-03**: `systemPromptSegment` includes current step instructions from `step.instructions`
 - [ ] **COMP-04**: `systemPromptSegment` includes branch context if applicable (why this branch was taken, alternatives)
 - [ ] **COMP-05**: `systemPromptSegment` includes retry context if applicable (attempt number, previous failure reason)
-- [ ] **COMP-06**: `systemPromptSegment` includes output format instructions derived from `output_schema` (JSON schema → structured output instructions)
+- [ ] **COMP-06**: `systemPromptSegment` includes output format instructions derived from `output_schema` (JSON schema -> structured output instructions)
 - [ ] **COMP-07**: `systemPromptSegment` includes confidence requirements from step confidence thresholds
 - [ ] **COMP-08**: `systemPromptSegment` includes active quality gate descriptions ("Before responding, verify: ...")
 - [ ] **COMP-09**: Compiled prompt segments are human-readable (debugging surface area)
@@ -55,9 +55,9 @@
 
 ### Constraints
 
-- [ ] **CNST-01**: All compiler functions are pure — no side effects, no I/O, no LLM calls
-- [ ] **CNST-02**: Output is model-agnostic — works with any LLM that accepts text prompts
-- [ ] **CNST-03**: No new dependencies — builds entirely on M1 foundation
+- [ ] **CNST-01**: All compiler functions are pure -- no side effects, no I/O, no LLM calls
+- [ ] **CNST-02**: Output is model-agnostic -- works with any LLM that accepts text prompts
+- [ ] **CNST-03**: No new dependencies -- builds entirely on M1 foundation
 
 ## v1.0 Requirements (Complete)
 
@@ -78,41 +78,41 @@ All v1.0 requirements shipped and validated. See MILESTONES.md for details.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| COMP-01 | — | Pending |
-| COMP-02 | — | Pending |
-| COMP-03 | — | Pending |
-| COMP-04 | — | Pending |
-| COMP-05 | — | Pending |
-| COMP-06 | — | Pending |
-| COMP-07 | — | Pending |
-| COMP-08 | — | Pending |
-| COMP-09 | — | Pending |
-| COMP-10 | — | Pending |
-| WKFL-01 | — | Pending |
-| WKFL-02 | — | Pending |
-| WKFL-03 | — | Pending |
-| WKFL-04 | — | Pending |
-| GATE-01 | — | Pending |
-| GATE-02 | — | Pending |
-| GATE-03 | — | Pending |
-| TOKN-01 | — | Pending |
-| TOKN-02 | — | Pending |
-| TYPE-01 | — | Pending |
-| TYPE-02 | — | Pending |
-| CLIU-01 | — | Pending |
-| CLIU-02 | — | Pending |
-| CTST-01 | — | Pending |
-| CTST-02 | — | Pending |
-| CTST-03 | — | Pending |
-| CNST-01 | — | Pending |
-| CNST-02 | — | Pending |
-| CNST-03 | — | Pending |
+| COMP-01 | Phase 11 | Pending |
+| COMP-02 | Phase 11 | Pending |
+| COMP-03 | Phase 11 | Pending |
+| COMP-04 | Phase 12 | Pending |
+| COMP-05 | Phase 12 | Pending |
+| COMP-06 | Phase 11 | Pending |
+| COMP-07 | Phase 12 | Pending |
+| COMP-08 | Phase 12 | Pending |
+| COMP-09 | Phase 11 | Pending |
+| COMP-10 | Phase 11 | Pending |
+| WKFL-01 | Phase 15 | Pending |
+| WKFL-02 | Phase 15 | Pending |
+| WKFL-03 | Phase 15 | Pending |
+| WKFL-04 | Phase 15 | Pending |
+| GATE-01 | Phase 13 | Pending |
+| GATE-02 | Phase 13 | Pending |
+| GATE-03 | Phase 13 | Pending |
+| TOKN-01 | Phase 14 | Pending |
+| TOKN-02 | Phase 14 | Pending |
+| TYPE-01 | Phase 10 | Pending |
+| TYPE-02 | Phase 10 | Pending |
+| CLIU-01 | Phase 16 | Pending |
+| CLIU-02 | Phase 16 | Pending |
+| CTST-01 | Phase 17 | Pending |
+| CTST-02 | Phase 17 | Pending |
+| CTST-03 | Phase 17 | Pending |
+| CNST-01 | Phase 10 | Pending |
+| CNST-02 | Phase 10 | Pending |
+| CNST-03 | Phase 10 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 29 total
-- Mapped to phases: 0
-- Unmapped: 29
+- Mapped to phases: 29
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-31 (v1.0)*
-*Last updated: 2026-04-02 after v1.1 milestone definition*
+*Last updated: 2026-04-02 after v1.1 roadmap mapping*

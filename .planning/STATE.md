@@ -2,24 +2,24 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-31)
+See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Developers can define agent reasoning strategies in a portable, declarative file format -- parsed and validated by a standalone library.
-**Current focus:** Phase 8: CLI (complete)
+**Current focus:** Phase 10: Compiler Types & Foundation
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements for v1.1
-Last activity: 2026-04-02 — Milestone v1.1 started
+Phase: 10 of 17 (Compiler Types & Foundation)
+Plan: -- (not yet planned)
+Status: Ready to plan
+Last activity: 2026-04-02 -- v1.1 roadmap created
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [##########..........] 53% (9/17 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
+- Total plans completed: 12 (v1.0)
 - Average duration: 4.3min
 - Total execution time: 0.85 hours
 
@@ -33,24 +33,11 @@ Progress: [░░░░░░░░░░] 0%
 | 05 | 3 | 7min | 2.3min |
 | 06 | 1 | 2min | 2min |
 | 08 | 2 | 5min | 2.5min |
+| 09 | 3 | 7min | 2.3min |
 
 **Recent Trend:**
 - Last 5 plans: 2min, 2min, 2min, 3min, 2min
-- Trend: improving
-
-| Phase 02 P01 | 10min | 2 tasks | 4 files |
-| Phase 02 P02 | 13min | 2 tasks | 6 files |
-| Phase 03 P01 | 6min | 2 tasks | 3 files |
-| Phase 04 P01 | 3min | 2 tasks | 5 files |
-| Phase 04 P02 | 3min | 2 tasks | 2 files |
-| Phase 05 P01 | 3min | 2 tasks | 2 files |
-| Phase 05 P02 | 2min | 2 tasks | 2 files |
-| Phase 05 P03 | 2min | 1 task | 2 files |
-| Phase 06 P01 | 2min | 2 tasks | 3 files |
-| Phase 08 P01 | 3min | 2 tasks | 6 files |
-| Phase 08 P02 | 2min | 2 tasks | 4 files |
-| Phase 09 P01 | 3min | 2 tasks | 3 files |
-| Phase 09 P03 | 4min | 1 task | 2 files |
+- Trend: Stable
 
 ## Accumulated Context
 
@@ -59,30 +46,9 @@ Progress: [░░░░░░░░░░] 0%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- Single flat types.ts file per project constraint (no src/ directory)
-- Expression type is plain string alias -- parsing deferred to Phase 5
-- Disabled Biome noThenProperty rule globally (then is a valid spec field)
-- Used createRequire for ajv-formats CJS interop under verbatimModuleSyntax
-- additionalProperties: false on all schema definitions for strict validation
-- Parser returns raw data cast as LogicSpec -- schema validation deferred to Phase 4
-- Discriminated union result type pattern: { ok: true } | { ok: false, errors: [] }
-- [Phase 04]: Used yaml package parseDocument + LineCounter for source position mapping
-- [Phase 04]: Strip leading newline from gray-matter .matter for correct line number mapping
-- [Phase 05]: Pratt parser with 8 precedence levels; CallExpression models method calls (callee.property(args))
-- [Phase 05]: Regular enum for TokenType (not const enum) to preserve runtime string values
-- [Phase 05]: Loose equality (==) for expression comparisons; safe navigation returns undefined for missing intermediates
-- [Phase 05]: Strip comments before security regex check to avoid false positives on eval() mentions in documentation
-- [Phase 06]: Kahn's algorithm with depth tracking for topological sort + parallel level grouping
-- [Phase 06]: DFS gray/black coloring for cycle path extraction on remainder subgraph
-- [Phase 06]: Early return on validation errors (self-ref, missing dep) before topological sort
-- [Phase 08]: Raw ANSI codes for terminal colors (zero deps, universal compatibility)
-- [Phase 08]: Pure lintSpec() function separated from I/O for testability
-- [Phase 08]: Command handlers return exit codes; caller does process.exit()
-- [Phase 08]: execFileSync with try/catch for subprocess exit code capture in integration tests
-- [Phase 08]: Separate fixture files for validation errors vs lint warnings
-- [Phase 09]: Include imports.ts and schema.ts in coverage targets alongside four primary modules
-- [Phase 09]: 90% thresholds on all coverage metrics (lines, branches, functions, statements)
-- [Phase 09]: Defensive null-coalescing branches in parser.ts, DFS paths in dag.ts, and CJS interop in schema.ts are unreachable; accepted per-file gaps while global 90% threshold passes
+- All compiler functions are pure -- no side effects, no I/O, no LLM calls (CNST-01)
+- Compiler reuses existing expression.ts, dag.ts, types.ts from v1.0
+- No new dependencies for v1.1 (CNST-03)
 
 ### Pending Todos
 
@@ -94,6 +60,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-31
-Stopped at: Completed 09-02-PLAN.md
+Last session: 2026-04-02
+Stopped at: v1.1 roadmap created, ready to plan Phase 10
 Resume file: None
