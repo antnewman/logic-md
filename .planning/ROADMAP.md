@@ -107,12 +107,10 @@ Plans:
   2. Circular dependencies are detected and reported with the cycle path (e.g., "A -> B -> C -> A")
   3. Steps with no path from any root are identified as unreachable
   4. Independent steps at the same depth level are grouped as parallel-executable
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 06-01: TBD
-- [ ] 06-02: TBD
-- [ ] 06-03: TBD
+- [ ] 06-01-PLAN.md — TDD DAG resolver: Kahn's algorithm with cycle detection, unreachable identification, and parallel grouping
 
 ### Phase 7: Import Resolver
 **Goal**: LOGIC.md files can import and compose reasoning scaffolds from other LOGIC.md files
@@ -178,7 +176,7 @@ Note: Phases 5 and 6 depend only on Phase 2 and can theoretically run in paralle
 | 3. Parser | 0/1 | Complete    | 2026-04-01 |
 | 4. Schema Validator | 0/2 | Complete    | 2026-04-01 |
 | 5. Expression Engine | 3/3 | Complete    | 2026-04-01 |
-| 6. DAG Resolver | 0/3 | Not started | - |
+| 6. DAG Resolver | 0/1 | Not started | - |
 | 7. Import Resolver | 0/3 | Not started | - |
 | 8. CLI | 0/5 | Not started | - |
 | 9. Test Coverage & Integration | 0/5 | Not started | - |
