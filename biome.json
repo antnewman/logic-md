@@ -6,7 +6,11 @@
 		"rules": {
 			"recommended": true,
 			"suspicious": {
-				"noThenProperty": "off"
+				"noThenProperty": "off",
+				"noDoubleEquals": "off"
+			},
+			"style": {
+				"noNonNullAssertion": "off"
 			}
 		}
 	},

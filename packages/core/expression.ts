@@ -172,7 +172,6 @@ export function tokenize(input: string): Token[] {
 	let pos = 0;
 
 	while (pos < input.length) {
-		// biome-ignore lint: pos is guaranteed within bounds by while condition
 		const ch = input[pos]!;
 
 		// Skip whitespace
@@ -532,10 +531,8 @@ function evaluateNode(node: ASTNode, context: ExpressionContext): unknown {
 			const right = evaluateNode(node.right, context);
 
 			switch (node.operator) {
-				// biome-ignore lint/suspicious/noDoubleEquals: Expression engine uses loose equality by design
 				case "==":
 					return left == right;
-				// biome-ignore lint/suspicious/noDoubleEquals: Expression engine uses loose inequality by design
 				case "!=":
 					return left != right;
 				case "<":

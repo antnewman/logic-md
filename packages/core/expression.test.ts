@@ -2,11 +2,9 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
 	type ASTNode,
-	type ExpressionContext,
 	ExpressionError,
 	evaluate,
 	parse,
-	type Token,
 	TokenType,
 	tokenize,
 } from "./expression.js";
