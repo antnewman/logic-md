@@ -120,12 +120,11 @@ Plans:
   1. A LOGIC.md file with an `imports` array resolves referenced files from relative paths and namespaces them correctly
   2. Imported configs merge with local configs where local values take precedence over imported ones
   3. Circular imports (A imports B imports A) are detected and reported with the import chain
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 07-01: TBD
-- [ ] 07-02: TBD
-- [ ] 07-03: TBD
+- [ ] 07-01-PLAN.md — TDD import resolver: fixtures, tests, resolveImports with namespace merging and circular detection
+- [ ] 07-02-PLAN.md — Barrel export wiring and edge case tests
 
 ### Phase 8: CLI
 **Goal**: Developers can run logic-md commands from the terminal to validate, lint, and compile LOGIC.md files
@@ -177,6 +176,6 @@ Note: Phases 5 and 6 depend only on Phase 2 and can theoretically run in paralle
 | 4. Schema Validator | 0/2 | Complete    | 2026-04-01 |
 | 5. Expression Engine | 3/3 | Complete    | 2026-04-01 |
 | 6. DAG Resolver | 0/1 | Complete    | 2026-04-01 |
-| 7. Import Resolver | 0/3 | Not started | - |
+| 7. Import Resolver | 0/2 | Not started | - |
 | 8. CLI | 0/5 | Not started | - |
 | 9. Test Coverage & Integration | 0/5 | Not started | - |
