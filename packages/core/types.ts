@@ -612,3 +612,64 @@ export interface ValidationFailure {
 
 /** Discriminated union returned by validate() */
 export type ValidationResult = ValidationSuccess | ValidationFailure;
+
+// -----------------------------------------------------------------------------
+// Compiler Types (v1.1)
+// -----------------------------------------------------------------------------
+
+/** Runtime quality gate validator function (v1.1 Compiler) */
+export type QualityGateValidator = (output: unknown) => { passed: boolean; message?: string };
+
+/** Retry policy derived from Temporal patterns (v1.1 Compiler) */
+export interface RetryPolicy {
+	maxAttempts: number;
+	initialInterval: string;
+	backoffCoefficient: number;
+	maximumInterval: string;
+	nonRetryableErrors: string[];
+}
+
+/** Runtime execution context for a single step (v1.1 Compiler) */
+export interface ExecutionContext {
+	currentStep: string;
+	previousOutputs: Record<string, unknown>;
+	input: unknown;
+	attemptNumber: number;
+	branchReason: string | null;
+}
+
+/** Workflow-level execution context extending step context (v1.1 Compiler) */
+export interface WorkflowContext extends ExecutionContext {
+	totalSteps: number;
+	completedSteps: string[];
+	dagLevels: string[][];
+}
+
+/** A compiled step ready for execution (v1.1 Compiler) */
+export interface CompiledStep {
+	systemPromptSegment: string;
+	outputSchema: object | null;
+	qualityGates: QualityGateValidator[];
+	selfReflection: { prompt: string; minimumScore: number } | null;
+	retryPolicy: RetryPolicy | null;
+	metadata: {
+		stepName: string;
+		dagLevel: number;
+		branchTaken: string | null;
+		attemptNumber: number;
+		totalSteps: number;
+	};
+}
+
+/** A compiled workflow with all steps resolved (v1.1 Compiler) */
+export interface CompiledWorkflow {
+	steps: CompiledStep[];
+	dagLevels: string[][];
+	globalQualityGates: QualityGateValidator[];
+	fallbackPolicy: Fallback | null;
+	metadata: {
+		name: string;
+		totalSteps: number;
+		totalLevels: number;
+	};
+}
