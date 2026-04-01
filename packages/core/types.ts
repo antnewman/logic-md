@@ -581,3 +581,34 @@ export interface LogicSpec {
 	/** Arbitrary key-value metadata */
 	metadata?: Record<string, unknown>;
 }
+
+// -----------------------------------------------------------------------------
+// Validation Result Types (Phase 4)
+// -----------------------------------------------------------------------------
+
+/** Structured validation error with optional source location */
+export interface ValidationError {
+	/** Human-readable error message */
+	message: string;
+	/** JSON Pointer path (e.g., "/steps/analyze/timeout") */
+	path: string;
+	/** 1-indexed line number in source file */
+	line?: number;
+	/** 1-indexed column number in source file */
+	column?: number;
+}
+
+/** Successful validation -- typed data */
+export interface ValidationSuccess {
+	ok: true;
+	data: LogicSpec;
+}
+
+/** Failed validation -- one or more errors */
+export interface ValidationFailure {
+	ok: false;
+	errors: ValidationError[];
+}
+
+/** Discriminated union returned by validate() */
+export type ValidationResult = ValidationSuccess | ValidationFailure;
