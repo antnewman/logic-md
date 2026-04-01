@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
-	ExpressionError,
-	TokenType,
-	type Token,
 	type ASTNode,
-	tokenize,
+	ExpressionError,
 	parse,
+	type Token,
+	TokenType,
+	tokenize,
 } from "./expression.js";
 
 // =============================================================================
