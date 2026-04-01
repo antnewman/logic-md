@@ -1,5 +1,11 @@
 export const VERSION = "0.0.0";
 export {
+	CompilerError,
+	compileStep,
+	compileWorkflow,
+	estimateTokens,
+} from "./compiler.js";
+export {
 	type DagError,
 	type DagFailure,
 	type DagResult,
