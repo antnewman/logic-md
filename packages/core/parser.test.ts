@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parse, type ParseResult } from "./parser.js";
+import { type ParseResult, parse } from "./parser.js";
 
 describe("parse()", () => {
 	describe("valid input", () => {
@@ -79,9 +79,7 @@ describe("parse()", () => {
 			expect(result.ok).toBe(false);
 			if (!result.ok) {
 				expect(result.errors).toHaveLength(1);
-				expect(result.errors[0].message).toEqual(
-					expect.stringContaining("empty"),
-				);
+				expect(result.errors[0].message).toEqual(expect.stringContaining("empty"));
 			}
 		});
 
@@ -99,9 +97,7 @@ describe("parse()", () => {
 
 			expect(result.ok).toBe(false);
 			if (!result.ok) {
-				expect(result.errors[0].message).toEqual(
-					expect.stringContaining("---"),
-				);
+				expect(result.errors[0].message).toEqual(expect.stringContaining("---"));
 			}
 		});
 
