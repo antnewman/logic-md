@@ -42,10 +42,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### DAG Resolver
 
-- [ ] **DAG-01**: Topologically sort steps based on `needs` dependencies
-- [ ] **DAG-02**: Detect and report cycles with clear error messages
-- [ ] **DAG-03**: Identify unreachable steps (no path from any root)
-- [ ] **DAG-04**: Resolve parallel execution groups (independent steps at same depth)
+- [x] **DAG-01**: Topologically sort steps based on `needs` dependencies
+- [x] **DAG-02**: Detect and report cycles with clear error messages
+- [x] **DAG-03**: Identify unreachable steps (no path from any root)
+- [x] **DAG-04**: Resolve parallel execution groups (independent steps at same depth)
 
 ### Import Resolver
 
@@ -135,10 +135,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXPR-06 | Phase 5 | Complete |
 | EXPR-07 | Phase 5 | Complete |
 | EXPR-08 | Phase 5 | Complete |
-| DAG-01 | Phase 6 | Pending |
-| DAG-02 | Phase 6 | Pending |
-| DAG-03 | Phase 6 | Pending |
-| DAG-04 | Phase 6 | Pending |
+| DAG-01 | Phase 6 | Complete |
+| DAG-02 | Phase 6 | Complete |
+| DAG-03 | Phase 6 | Complete |
+| DAG-04 | Phase 6 | Complete |
 | IMPT-01 | Phase 7 | Pending |
 | IMPT-02 | Phase 7 | Pending |
 | IMPT-03 | Phase 7 | Pending |
