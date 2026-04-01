@@ -1,5 +1,10 @@
 export const VERSION = "0.0.0";
 export {
+	type ExpressionContext,
+	ExpressionError,
+	evaluate,
+} from "./expression.js";
+export {
 	type ParseError,
 	type ParseFailure,
 	type ParseResult,

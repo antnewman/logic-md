@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
 	type ASTNode,
@@ -537,5 +538,100 @@ describe("evaluate", () => {
 				}),
 			).toBe("block");
 		});
+	});
+});
+
+// =============================================================================
+// Integration Tests -- LOGIC.md Expressions
+// =============================================================================
+
+describe("integration -- LOGIC.md expressions", () => {
+	it("quality gate check: findings.length > 0", () => {
+		const result = evaluate("{{ output.findings.length > 0 }}", {
+			output: { findings: ["issue1", "issue2"] },
+		});
+		expect(result).toBe(true);
+	});
+
+	it("step verification: confidence >= 0.8", () => {
+		const result = evaluate("{{ steps.analyze.output.confidence >= 0.8 }}", {
+			steps: { analyze: { output: { confidence: 0.92 } } },
+		});
+		expect(result).toBe(true);
+	});
+
+	it("branch condition: risk_level == high AND findings > 3", () => {
+		const result = evaluate('{{ output.risk_level == "high" && output.findings.length > 3 }}', {
+			output: { risk_level: "high", findings: [1, 2, 3, 4] },
+		});
+		expect(result).toBe(true);
+	});
+
+	it("ternary routing: score-based pass/review", () => {
+		const result = evaluate('{{ output.score > 80 ? "pass" : "review" }}', {
+			output: { score: 65 },
+		});
+		expect(result).toBe("review");
+	});
+
+	it("array contains check: tags contain critical", () => {
+		const result = evaluate('{{ output.tags.contains("critical") }}', {
+			output: { tags: ["warning", "critical", "info"] },
+		});
+		expect(result).toBe(true);
+	});
+
+	it("every with property: all checks passed", () => {
+		const result = evaluate('{{ steps.validate.output.checks.every("passed") }}', {
+			steps: {
+				validate: {
+					output: { checks: [{ passed: true }, { passed: true }] },
+				},
+			},
+		});
+		expect(result).toBe(true);
+	});
+
+	it("some with property: any result has error", () => {
+		const result = evaluate('{{ output.results.some("hasError") }}', {
+			output: { results: [{ hasError: false }, { hasError: true }] },
+		});
+		expect(result).toBe(true);
+	});
+
+	it("negation: not approved", () => {
+		const result = evaluate("{{ !output.approved }}", {
+			output: { approved: false },
+		});
+		expect(result).toBe(true);
+	});
+
+	it("complex combined: findings exist OR not approved", () => {
+		const result = evaluate("{{ output.findings.length > 0 || !steps.review.output.approved }}", {
+			output: { findings: ["a"] },
+			steps: { review: { output: { approved: true } } },
+		});
+		expect(result).toBe(true);
+	});
+
+	it("escalation trigger: low confidence", () => {
+		const result = evaluate("{{ steps.analyze.output.confidence < 0.5 }}", {
+			steps: { analyze: { output: { confidence: 0.3 } } },
+		});
+		expect(result).toBe(true);
+	});
+});
+
+// =============================================================================
+// Security: No eval() or Function constructor
+// =============================================================================
+
+describe("security -- no eval or Function constructor", () => {
+	it("expression.ts does not contain eval() or new Function", () => {
+		const source = readFileSync(new URL("./expression.ts", import.meta.url), "utf-8");
+		// Strip comments before checking -- comments may mention eval/Function
+		const stripped = source.replace(/\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "");
+		expect(stripped).not.toMatch(/\beval\s*\(/);
+		expect(stripped).not.toMatch(/new\s+Function\s*\(/);
 	});
 });
