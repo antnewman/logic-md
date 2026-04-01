@@ -1,11 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-	type DagError,
-	type DagFailure,
-	type DagResult,
-	type DagSuccess,
-	resolve,
-} from "./dag.js";
+import { type DagError, type DagFailure, type DagResult, type DagSuccess, resolve } from "./dag.js";
 import type { Step } from "./types.js";
 
 // =============================================================================
@@ -61,9 +55,7 @@ describe("linear chain", () => {
 
 describe("diamond dependency", () => {
 	it("groups independent steps in the same level", () => {
-		const result = resolve(
-			steps({ A: [], B: ["A"], C: ["A"], D: ["B", "C"] }),
-		);
+		const result = resolve(steps({ A: [], B: ["A"], C: ["A"], D: ["B", "C"] }));
 		expect(result).toEqual({
 			ok: true,
 			levels: [["A"], ["B", "C"], ["D"]],
@@ -101,14 +93,12 @@ describe("cycle detection", () => {
 			expect(cycleError).toBeDefined();
 			expect(cycleError!.nodes).toContain("A");
 			expect(cycleError!.nodes).toContain("B");
-			expect(cycleError!.message).toMatch(/->/)
+			expect(cycleError!.message).toMatch(/->/);
 		}
 	});
 
 	it("detects a three-node cycle", () => {
-		const result = resolve(
-			steps({ A: ["C"], B: ["A"], C: ["B"] }),
-		);
+		const result = resolve(steps({ A: ["C"], B: ["A"], C: ["B"] }));
 		expect(result.ok).toBe(false);
 		if (!result.ok) {
 			const cycleError = result.errors.find((e) => e.type === "cycle");
@@ -146,9 +136,7 @@ describe("missing dependency", () => {
 		const result = resolve(steps({ A: ["nonexistent"] }));
 		expect(result.ok).toBe(false);
 		if (!result.ok) {
-			const missingError = result.errors.find(
-				(e) => e.type === "missing_dependency",
-			);
+			const missingError = result.errors.find((e) => e.type === "missing_dependency");
 			expect(missingError).toBeDefined();
 			expect(missingError!.nodes).toContain("A");
 			expect(missingError!.nodes).toContain("nonexistent");
@@ -171,9 +159,7 @@ describe("unreachable vs cycle", () => {
 			expect(cycleError!.nodes).toContain("B");
 			expect(cycleError!.nodes).toContain("C");
 			// B and C should NOT be reported as unreachable
-			const unreachableError = result.errors.find(
-				(e) => e.type === "unreachable",
-			);
+			const unreachableError = result.errors.find((e) => e.type === "unreachable");
 			expect(unreachableError).toBeUndefined();
 		}
 	});

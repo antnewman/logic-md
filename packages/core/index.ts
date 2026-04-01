@@ -1,5 +1,12 @@
 export const VERSION = "0.0.0";
 export {
+	type DagError,
+	type DagFailure,
+	type DagResult,
+	type DagSuccess,
+	resolve,
+} from "./dag.js";
+export {
 	type ExpressionContext,
 	ExpressionError,
 	evaluate,
