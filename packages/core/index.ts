@@ -12,6 +12,13 @@ export {
 	evaluate,
 } from "./expression.js";
 export {
+	type ImportError,
+	type ImportFailure,
+	type ImportResult,
+	type ImportSuccess,
+	resolveImports,
+} from "./imports.js";
+export {
 	type ParseError,
 	type ParseFailure,
 	type ParseResult,
