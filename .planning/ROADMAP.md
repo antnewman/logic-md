@@ -62,12 +62,10 @@ Plans:
   1. Calling `parse(fileContent)` with valid LOGIC.md returns a fully typed LogicSpec object
   2. Calling `parse()` with missing delimiters, empty frontmatter, or invalid YAML returns descriptive errors (not crashes)
   3. Parser uses gray-matter for frontmatter extraction
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
-- [ ] 03-03: TBD
+- [ ] 03-01-PLAN.md — TDD parser: tests for frontmatter extraction and edge cases, then implementation
 
 ### Phase 4: Schema Validator
 **Goal**: Developers can validate parsed LogicSpec objects and get actionable, multi-error reports with line numbers
@@ -180,7 +178,7 @@ Note: Phases 5 and 6 depend only on Phase 2 and can theoretically run in paralle
 |-------|----------------|--------|-----------|
 | 1. Project Scaffolding | 0/2 | Complete    | 2026-03-31 |
 | 2. Type System & JSON Schema | 0/2 | Complete    | 2026-04-01 |
-| 3. Parser | 0/3 | Not started | - |
+| 3. Parser | 0/1 | Not started | - |
 | 4. Schema Validator | 0/3 | Not started | - |
 | 5. Expression Engine | 0/5 | Not started | - |
 | 6. DAG Resolver | 0/3 | Not started | - |
