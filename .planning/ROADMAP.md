@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Parser** - Extract and parse YAML frontmatter into typed LogicSpec objects (completed 2026-04-01)
 - [x] **Phase 4: Schema Validator** - Validate parsed specs against JSON Schema with rich error reporting (completed 2026-04-01)
 - [x] **Phase 5: Expression Engine** - Parse and evaluate template expressions with context injection (completed 2026-04-01)
-- [ ] **Phase 6: DAG Resolver** - Topological sorting, cycle detection, and parallel group resolution
+- [x] **Phase 6: DAG Resolver** - Topological sorting, cycle detection, and parallel group resolution (completed 2026-04-01)
 - [ ] **Phase 7: Import Resolver** - File-based imports with namespace composition and circular detection
 - [ ] **Phase 8: CLI** - Validate, lint, and compile commands with proper exit codes and output
 - [ ] **Phase 9: Test Coverage & Integration** - 90%+ coverage across all modules and end-to-end integration tests
@@ -176,7 +176,7 @@ Note: Phases 5 and 6 depend only on Phase 2 and can theoretically run in paralle
 | 3. Parser | 0/1 | Complete    | 2026-04-01 |
 | 4. Schema Validator | 0/2 | Complete    | 2026-04-01 |
 | 5. Expression Engine | 3/3 | Complete    | 2026-04-01 |
-| 6. DAG Resolver | 0/1 | Not started | - |
+| 6. DAG Resolver | 0/1 | Complete    | 2026-04-01 |
 | 7. Import Resolver | 0/3 | Not started | - |
 | 8. CLI | 0/5 | Not started | - |
 | 9. Test Coverage & Integration | 0/5 | Not started | - |
