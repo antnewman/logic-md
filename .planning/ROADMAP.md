@@ -75,12 +75,11 @@ Plans:
   1. Calling `validate(spec)` returns all validation errors in a single pass (not bailing on first error)
   2. Each validation error includes a line number and a human-readable message describing what is wrong and where
   3. Valid specs return a clean success result
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
-- [ ] 04-03: TBD
+- [ ] 04-01-PLAN.md — TDD core validate() function with ajv schema validation and multi-error collection
+- [ ] 04-02-PLAN.md — Line number accuracy tests and barrel export wiring
 
 ### Phase 5: Expression Engine
 **Goal**: Template expressions in LOGIC.md files can be parsed and evaluated safely against injected context
@@ -179,7 +178,7 @@ Note: Phases 5 and 6 depend only on Phase 2 and can theoretically run in paralle
 | 1. Project Scaffolding | 0/2 | Complete    | 2026-03-31 |
 | 2. Type System & JSON Schema | 0/2 | Complete    | 2026-04-01 |
 | 3. Parser | 0/1 | Complete    | 2026-04-01 |
-| 4. Schema Validator | 0/3 | Not started | - |
+| 4. Schema Validator | 0/2 | Not started | - |
 | 5. Expression Engine | 0/5 | Not started | - |
 | 6. DAG Resolver | 0/3 | Not started | - |
 | 7. Import Resolver | 0/3 | Not started | - |
