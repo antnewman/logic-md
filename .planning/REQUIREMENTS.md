@@ -28,8 +28,8 @@
 
 ### Quality Gate Compilation
 
-- [ ] **GATE-01**: Quality gates compile to executable validator functions: `(output) => { passed, message? }`
-- [ ] **GATE-02**: Gate evaluation uses existing expression engine (`evaluate()` from expression.ts)
+- [x] **GATE-01**: Quality gates compile to executable validator functions: `(output) => { passed, message? }`
+- [x] **GATE-02**: Gate evaluation uses existing expression engine (`evaluate()` from expression.ts)
 - [ ] **GATE-03**: Self-reflection gates compile to a follow-up prompt template with rubric and minimum score
 
 ### Token Estimation
@@ -92,8 +92,8 @@ All v1.0 requirements shipped and validated. See MILESTONES.md for details.
 | WKFL-02 | Phase 15 | Pending |
 | WKFL-03 | Phase 15 | Pending |
 | WKFL-04 | Phase 15 | Pending |
-| GATE-01 | Phase 13 | Pending |
-| GATE-02 | Phase 13 | Pending |
+| GATE-01 | Phase 13 | Complete |
+| GATE-02 | Phase 13 | Complete |
 | GATE-03 | Phase 13 | Pending |
 | TOKN-01 | Phase 14 | Pending |
 | TOKN-02 | Phase 14 | Pending |
