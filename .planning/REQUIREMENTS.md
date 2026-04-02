@@ -11,8 +11,8 @@
 - [x] **COMP-01**: `compileStep(spec, stepName, context)` returns a `CompiledStep` with systemPromptSegment, outputSchema, qualityGates, retryPolicy, and metadata
 - [x] **COMP-02**: `systemPromptSegment` includes reasoning strategy preamble ("You are using ReAct reasoning with max N iterations...")
 - [x] **COMP-03**: `systemPromptSegment` includes current step instructions from `step.instructions`
-- [ ] **COMP-04**: `systemPromptSegment` includes branch context if applicable (why this branch was taken, alternatives)
-- [ ] **COMP-05**: `systemPromptSegment` includes retry context if applicable (attempt number, previous failure reason)
+- [x] **COMP-04**: `systemPromptSegment` includes branch context if applicable (why this branch was taken, alternatives)
+- [x] **COMP-05**: `systemPromptSegment` includes retry context if applicable (attempt number, previous failure reason)
 - [x] **COMP-06**: `systemPromptSegment` includes output format instructions derived from `output_schema` (JSON schema -> structured output instructions)
 - [ ] **COMP-07**: `systemPromptSegment` includes confidence requirements from step confidence thresholds
 - [ ] **COMP-08**: `systemPromptSegment` includes active quality gate descriptions ("Before responding, verify: ...")
@@ -81,8 +81,8 @@ All v1.0 requirements shipped and validated. See MILESTONES.md for details.
 | COMP-01 | Phase 11 | Complete |
 | COMP-02 | Phase 11 | Complete |
 | COMP-03 | Phase 11 | Complete |
-| COMP-04 | Phase 12 | Pending |
-| COMP-05 | Phase 12 | Pending |
+| COMP-04 | Phase 12 | Complete |
+| COMP-05 | Phase 12 | Complete |
 | COMP-06 | Phase 11 | Complete |
 | COMP-07 | Phase 12 | Pending |
 | COMP-08 | Phase 12 | Pending |

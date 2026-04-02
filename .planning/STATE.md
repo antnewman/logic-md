@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Developers can define agent reasoning strategies in a portable, declarative file format -- parsed and validated by a standalone library.
-**Current focus:** Phase 11: Step Compiler Core
+**Current focus:** Phase 12: Step Compiler Context
 
 ## Current Position
 
-Phase: 11 of 17 (Step Compiler Core) -- COMPLETE
-Plan: 02 of 02 -- COMPLETE
-Status: Phase 11 complete
-Last activity: 2026-04-02 -- Phase 11 Plan 02 executed
+Phase: 12 of 17 (Step Compiler Context)
+Plan: 01 of 02 -- COMPLETE
+Status: Executing Phase 12
+Last activity: 2026-04-02 -- Phase 12 Plan 01 executed
 
 Progress: [############........] 65% (11/17 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14 (12 v1.0 + 2 v1.1)
-- Average duration: 4.0min
-- Total execution time: 0.93 hours
+- Total plans completed: 15 (12 v1.0 + 3 v1.1)
+- Average duration: 3.8min
+- Total execution time: 0.95 hours
 
 **By Phase:**
 
@@ -37,9 +37,10 @@ Progress: [############........] 65% (11/17 phases complete)
 
 | 10 | 1 | 2min | 2min |
 | 11 | 2 | 7min | 3.5min |
+| 12 | 1 | 2min | 2min |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 2min, 2min, 3min, 4min
+- Last 5 plans: 2min, 2min, 3min, 4min, 2min
 - Trend: Stable
 
 ## Accumulated Context
@@ -60,6 +61,7 @@ Recent decisions affecting current work:
 - Research-synthesizer fixture used as canonical test data for compiler tests
 - maximumInterval defaults to initialInterval when specified, otherwise 60s (Temporal retry semantics)
 - Output format instructions are model-agnostic: mention both JSON mode and structured output mode
+- [Phase 12]: Branch/retry context inserted between step instructions and output schema segments
 
 ### Pending Todos
 
@@ -72,5 +74,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-04-02
-Stopped at: Completed 11-02-PLAN.md (Phase 11 complete)
+Stopped at: Completed 12-01-PLAN.md
 Resume file: None
