@@ -1270,3 +1270,285 @@ describe("compileWorkflow", () => {
 		expect(() => compileWorkflow(spec, makeWorkflowCtx())).toThrow(CompilerError);
 	});
 });
+
+// =============================================================================
+// compileWorkflow: linear workflow
+// =============================================================================
+
+describe("compileWorkflow: linear workflow", () => {
+	it("produces 3 DAG levels for A->B->C chain", () => {
+		const spec = makeSpec({
+			step_a: { description: "Step A" },
+			step_b: { description: "Step B", needs: ["step_a"] },
+			step_c: { description: "Step C", needs: ["step_b"] },
+		});
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		expect(result.dagLevels).toHaveLength(3);
+		expect(result.dagLevels[0]).toHaveLength(1);
+		expect(result.dagLevels[1]).toHaveLength(1);
+		expect(result.dagLevels[2]).toHaveLength(1);
+	});
+
+	it("steps ordered as [step_a, step_b, step_c]", () => {
+		const spec = makeSpec({
+			step_a: { description: "Step A" },
+			step_b: { description: "Step B", needs: ["step_a"] },
+			step_c: { description: "Step C", needs: ["step_b"] },
+		});
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		const names = result.steps.map((s) => s.metadata.stepName);
+		expect(names).toEqual(["step_a", "step_b", "step_c"]);
+	});
+
+	it("metadata.totalLevels is 3", () => {
+		const spec = makeSpec({
+			step_a: { description: "Step A" },
+			step_b: { description: "Step B", needs: ["step_a"] },
+			step_c: { description: "Step C", needs: ["step_b"] },
+		});
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		expect(result.metadata.totalLevels).toBe(3);
+	});
+});
+
+// =============================================================================
+// compileWorkflow: branching workflow
+// =============================================================================
+
+describe("compileWorkflow: branching workflow", () => {
+	it("produces correct DAG levels for branching steps", () => {
+		const spec = makeSpec({
+			analyze: {
+				description: "Analyze input",
+				branches: [
+					{ if: "{{ score > 0.8 }}", then: "accept" },
+					{ default: true, then: "revise" },
+				],
+			},
+			accept: { description: "Accept result", needs: ["analyze"] },
+			revise: { description: "Revise result", needs: ["analyze"] },
+		});
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		expect(result.dagLevels[0]).toEqual(["analyze"]);
+		expect(result.dagLevels[1]).toEqual(expect.arrayContaining(["accept", "revise"]));
+		expect(result.dagLevels[1]).toHaveLength(2);
+	});
+
+	it("compiled step for analyze contains branches metadata in prompt", () => {
+		const spec = makeSpec({
+			analyze: {
+				description: "Analyze input",
+				branches: [
+					{ if: "{{ score > 0.8 }}", then: "accept" },
+					{ default: true, then: "revise" },
+				],
+			},
+			accept: { description: "Accept result", needs: ["analyze"] },
+			revise: { description: "Revise result", needs: ["analyze"] },
+		});
+		// Compile with branch context to see branch alternatives in prompt
+		const result = compileStep(
+			spec,
+			"analyze",
+			makeCtx({ branchReason: "routing decision" }),
+		);
+		expect(result.systemPromptSegment).toContain("accept");
+		expect(result.systemPromptSegment).toContain("revise");
+	});
+});
+
+// =============================================================================
+// compileWorkflow: parallel step groups
+// =============================================================================
+
+describe("compileWorkflow: parallel step groups", () => {
+	it("dagLevels[1] contains both parallel steps", () => {
+		const spec = makeSpec({
+			start: { description: "Start" },
+			parallel_a: { description: "Parallel A", needs: ["start"] },
+			parallel_b: { description: "Parallel B", needs: ["start"] },
+			merge: { description: "Merge", needs: ["parallel_a", "parallel_b"] },
+		});
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		expect(result.dagLevels[1]).toHaveLength(2);
+		expect(result.dagLevels[1]).toEqual(expect.arrayContaining(["parallel_a", "parallel_b"]));
+	});
+
+	it("dagLevels[2] contains only merge", () => {
+		const spec = makeSpec({
+			start: { description: "Start" },
+			parallel_a: { description: "Parallel A", needs: ["start"] },
+			parallel_b: { description: "Parallel B", needs: ["start"] },
+			merge: { description: "Merge", needs: ["parallel_a", "parallel_b"] },
+		});
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		expect(result.dagLevels[2]).toEqual(["merge"]);
+	});
+
+	it("metadata.totalLevels is 3", () => {
+		const spec = makeSpec({
+			start: { description: "Start" },
+			parallel_a: { description: "Parallel A", needs: ["start"] },
+			parallel_b: { description: "Parallel B", needs: ["start"] },
+			merge: { description: "Merge", needs: ["parallel_a", "parallel_b"] },
+		});
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		expect(result.metadata.totalLevels).toBe(3);
+	});
+});
+
+// =============================================================================
+// compileSelfReflection: unsupported strategy
+// =============================================================================
+
+describe("compileSelfReflection: unsupported strategy", () => {
+	it("checklist strategy returns selfReflection === null", () => {
+		const spec: LogicSpec = {
+			...makeSpec({
+				step: { description: "Test step" },
+			}),
+			quality_gates: {
+				self_verification: {
+					enabled: true,
+					strategy: "checklist",
+					checklist: ["item1", "item2"],
+				},
+			},
+		};
+		const result = compileStep(spec, "step", makeCtx());
+		expect(result.selfReflection).toBeNull();
+	});
+
+	it("critic strategy returns selfReflection === null", () => {
+		const spec: LogicSpec = {
+			...makeSpec({
+				step: { description: "Test step" },
+			}),
+			quality_gates: {
+				self_verification: {
+					enabled: true,
+					strategy: "critic",
+				},
+			},
+		};
+		const result = compileStep(spec, "step", makeCtx());
+		expect(result.selfReflection).toBeNull();
+	});
+});
+
+// =============================================================================
+// compileSelfReflection: edge cases
+// =============================================================================
+
+describe("compileSelfReflection: edge cases", () => {
+	it("reflection strategy with no explicit prompt uses default", () => {
+		const spec: LogicSpec = {
+			...makeSpec({
+				step: { description: "Test step" },
+			}),
+			quality_gates: {
+				self_verification: {
+					enabled: true,
+					strategy: "reflection",
+					reflection: {},
+				},
+			},
+		};
+		const result = compileStep(spec, "step", makeCtx());
+		expect(result.selfReflection).not.toBeNull();
+		expect(result.selfReflection!.prompt).toBe(
+			"Review your output for accuracy and completeness.",
+		);
+		expect(result.selfReflection!.minimumScore).toBe(0);
+	});
+
+	it("rubric with empty criteria array compiles with minimumScore", () => {
+		const spec: LogicSpec = {
+			...makeSpec({
+				step: { description: "Test step" },
+			}),
+			quality_gates: {
+				self_verification: {
+					enabled: true,
+					strategy: "rubric",
+					rubric: {
+						criteria: [],
+						minimum_score: 0.8,
+					},
+				},
+			},
+		};
+		const result = compileStep(spec, "step", makeCtx());
+		expect(result.selfReflection).not.toBeNull();
+		expect(result.selfReflection!.minimumScore).toBe(0.8);
+	});
+
+	it("rubric with no criteria field compiles", () => {
+		const spec: LogicSpec = {
+			...makeSpec({
+				step: { description: "Test step" },
+			}),
+			quality_gates: {
+				self_verification: {
+					enabled: true,
+					strategy: "rubric",
+					rubric: {
+						minimum_score: 0.8,
+					},
+				},
+			},
+		};
+		const result = compileStep(spec, "step", makeCtx());
+		expect(result.selfReflection).not.toBeNull();
+		expect(result.selfReflection!.minimumScore).toBe(0.8);
+	});
+});
+
+// =============================================================================
+// compileWorkflow: token warning propagation
+// =============================================================================
+
+describe("compileWorkflow: token warning propagation", () => {
+	it("compiled step within workflow has tokenWarning for long instructions", () => {
+		const longInstructions = "x".repeat(10000);
+		const spec = makeSpec({
+			long_step: { instructions: longInstructions },
+		});
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		expect(result.steps).toHaveLength(1);
+		expect(result.steps[0]!.tokenWarning).toBeDefined();
+		expect(result.steps[0]!.tokenWarning).toContain("2000");
+	});
+});
+
+// =============================================================================
+// compileWorkflow: missing optional fields
+// =============================================================================
+
+describe("compileWorkflow: missing optional fields", () => {
+	it("compiles steps with no optional fields without error", () => {
+		const spec = makeSpec({
+			empty_a: {},
+			empty_b: {},
+		});
+		expect(() => compileWorkflow(spec, makeWorkflowCtx())).not.toThrow();
+	});
+
+	it("compiled steps have null retryPolicy", () => {
+		const spec = makeSpec({ empty: {} });
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		expect(result.steps[0]!.retryPolicy).toBeNull();
+	});
+
+	it("compiled steps have null selfReflection", () => {
+		const spec = makeSpec({ empty: {} });
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		expect(result.steps[0]!.selfReflection).toBeNull();
+	});
+
+	it("compiled steps have empty qualityGates", () => {
+		const spec = makeSpec({ empty: {} });
+		const result = compileWorkflow(spec, makeWorkflowCtx());
+		expect(result.steps[0]!.qualityGates).toEqual([]);
+	});
+});
