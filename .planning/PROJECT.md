@@ -8,16 +8,11 @@ An open-source TypeScript toolkit for parsing, validating, and compiling LOGIC.m
 
 Developers can define agent reasoning strategies, step DAGs, quality gates, and inter-agent contracts in a portable, declarative file format — parsed and validated by a standalone library with zero framework lock-in.
 
-## Current Milestone: v1.1 Reasoning Compiler
+## Current State
 
-**Goal:** Build the reasoning compiler that transforms a parsed LOGIC.md into injectable prompt segments — the runtime middleware layer between system prompt and user message.
+**Shipped:** v1.0 (parser, validator, expression engine, DAG resolver, CLI) + v1.1 (reasoning compiler)
 
-**Target features:**
-- `compileStep()` — compile a single step into a prompt segment with output schema, quality gates, retry policy
-- `compileWorkflow()` — compile full workflow with DAG execution plan and pre-compiled steps
-- Quality gate compilation — expression engine evaluates `check` expressions as executable validators
-- Token estimation utility
-- CLI `--step` flag for step-level compilation
+The full parse-validate-compile pipeline is operational. A developer can write a LOGIC.md file, validate it, and compile individual steps or full workflows into injectable prompt segments ready for any LLM.
 
 ## Requirements
 
@@ -35,10 +30,16 @@ Developers can define agent reasoning strategies, step DAGs, quality gates, and 
 - ✓ CLI: `logic-md lint <file>` — check best practices — v1.0
 - ✓ CLI: `logic-md compile <file>` — output compiled reasoning scaffold — v1.0
 - ✓ 90%+ test coverage on parser, validator, expression engine, and DAG resolver — v1.0
+- ✓ compileStep() returns CompiledStep with systemPromptSegment, outputSchema, qualityGates, retryPolicy — v1.1
+- ✓ compileWorkflow() returns DAG-ordered pre-compiled steps with global quality gates and fallback — v1.1
+- ✓ Quality gates compile to executable validators using expression engine — v1.1
+- ✓ Token estimation (~4 chars/token) with 2000-token budget warnings — v1.1
+- ✓ CLI `--step` flag for single-step compilation with self-reflection output — v1.1
+- ✓ 90%+ test coverage on compiler module (100% stmts, 95.9% branches) — v1.1
 
 ### Active
 
-(Defined in REQUIREMENTS.md for v1.1)
+(Next milestone requirements TBD — run `/gsd:new-milestone`)
 
 ### Out of Scope
 
@@ -53,9 +54,9 @@ Developers can define agent reasoning strategies, step DAGs, quality gates, and 
 
 The LOGIC.md specification v1.0 is complete and lives at `docs/LOGIC-md-Specification-v1.0.md` in the modular9 repo. It defines: reasoning strategies (CoT, ReAct, ToT, GoT, Plan-Execute), step DAGs with typed I/O and `{{ }}` expressions, inter-agent contracts, quality gates with self-verification loops, decision trees, fallback/escalation chains, and visual builder integration patterns.
 
-No existing implementation exists anywhere — this is genuinely greenfield. The spec draws from GitHub Actions (conditionals, dependencies), Temporal (retry policies), MCP (typed schemas), and A2A (capability advertisement).
+No competing implementation exists — this is the reference implementation of the LOGIC.md spec. The spec draws from GitHub Actions (conditionals, dependencies), Temporal (retry policies), MCP (typed schemas), and A2A (capability advertisement).
 
-The 5-milestone implementation roadmap is documented at `docs/LOGIC.md.gsd-prompts.md` in the modular9 repo. M1 (parser, validator, expression engine, DAG resolver, import resolver, CLI) shipped as v1.0. M2 (reasoning compiler) is in progress.
+v1.0 shipped the parse-validate-resolve pipeline. v1.1 added the compiler layer that transforms parsed specs into LLM-injectable prompt segments. The codebase is ~8500 LOC TypeScript across two packages (core + cli), 328 tests passing, tagged at v1.1.0.
 
 ## Constraints
 
@@ -73,12 +74,15 @@ The 5-milestone implementation roadmap is documented at `docs/LOGIC.md.gsd-promp
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| npm workspaces over nx/turborepo | Simplicity — two packages don't need complex orchestration | — Pending |
-| biome over eslint+prettier | Single tool for lint+format, faster, less config | — Pending |
-| vitest over jest | Native ESM support, faster, better TypeScript integration | — Pending |
-| Custom expression parser over eval | Security — no code execution from user-authored LOGIC.md files | — Pending |
-| Flat package structure (no src/) | Less nesting, simpler imports, monorepo packages are already namespaced | — Pending |
-| GitHub repo at SingleSourceStudios | Use existing org, move to logic-md org later if needed | — Pending |
+| npm workspaces over nx/turborepo | Simplicity — two packages don't need complex orchestration | ✓ Good |
+| biome over eslint+prettier | Single tool for lint+format, faster, less config | ✓ Good |
+| vitest over jest | Native ESM support, faster, better TypeScript integration | ✓ Good |
+| Custom expression parser over eval | Security — no code execution from user-authored LOGIC.md files | ✓ Good |
+| Flat package structure (no src/) | Less nesting, simpler imports, monorepo packages are already namespaced | ✓ Good |
+| GitHub repo at SingleSourceStudios | Use existing org, move to logic-md org later if needed | ✓ Good |
+| Pure compiler functions (no I/O) | Compiler produces text, never calls LLMs — keeps it model-agnostic | ✓ Good |
+| Gate validators use expression engine | Reuse existing Pratt parser rather than adding eval dependency | ✓ Good |
+| DAG resolver called inline per step | Pure function, no caching needed — simplicity over premature optimization | ✓ Good |
 
 ---
-*Last updated: 2026-04-02 after milestone v1.1 initialization*
+*Last updated: 2026-04-02 after v1.1 milestone completion*
