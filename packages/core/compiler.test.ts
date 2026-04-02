@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { compileStep, CompilerError } from "./compiler.js";
+import { CompilerError, compileStep } from "./compiler.js";
 import type { ExecutionContext, LogicSpec, Step } from "./types.js";
 
 // =============================================================================
@@ -7,10 +7,7 @@ import type { ExecutionContext, LogicSpec, Step } from "./types.js";
 // =============================================================================
 
 /** Build a minimal LogicSpec with given steps and optional reasoning */
-function makeSpec(
-	steps: Record<string, Step>,
-	reasoning?: LogicSpec["reasoning"],
-): LogicSpec {
+function makeSpec(steps: Record<string, Step>, reasoning?: LogicSpec["reasoning"]): LogicSpec {
 	return {
 		spec_version: "1.0",
 		name: "test-spec",
@@ -36,8 +33,7 @@ function researchSpec(): LogicSpec {
 	return {
 		spec_version: "1.0",
 		name: "research-synthesizer",
-		description:
-			"Synthesizes multi-source research into structured reports with quality gates",
+		description: "Synthesizes multi-source research into structured reports with quality gates",
 		reasoning: {
 			strategy: "react",
 			max_iterations: 12,
@@ -46,8 +42,7 @@ function researchSpec(): LogicSpec {
 		},
 		steps: {
 			gather_sources: {
-				description:
-					"Search for and collect relevant sources on the research topic",
+				description: "Search for and collect relevant sources on the research topic",
 				instructions: [
 					"Search for sources relevant to the query.",
 					"Prioritize: peer-reviewed > official reports > news > blogs > forums.",
@@ -64,8 +59,7 @@ function researchSpec(): LogicSpec {
 			},
 			evaluate_credibility: {
 				needs: ["gather_sources"],
-				description:
-					"Score each source for recency, authority, and corroboration",
+				description: "Score each source for recency, authority, and corroboration",
 				instructions: [
 					"Evaluate each source for:",
 					"- Recency (prefer last 12 months)",
@@ -85,8 +79,7 @@ function researchSpec(): LogicSpec {
 			},
 			expand_search: {
 				needs: ["synthesize"],
-				description:
-					"Broaden search when initial sources are insufficient",
+				description: "Broaden search when initial sources are insufficient",
 				instructions: [
 					"Search additional databases and sources.",
 					"Try alternative keywords and related topics.",
@@ -107,16 +100,12 @@ function researchSpec(): LogicSpec {
 describe("compileStep error cases", () => {
 	it("throws CompilerError for nonexistent step name", () => {
 		const spec = researchSpec();
-		expect(() =>
-			compileStep(spec, "nonexistent", makeCtx()),
-		).toThrow(CompilerError);
+		expect(() => compileStep(spec, "nonexistent", makeCtx())).toThrow(CompilerError);
 	});
 
 	it("throws CompilerError when spec has no steps", () => {
 		const spec = makeSpec({});
-		expect(() => compileStep(spec, "any", makeCtx())).toThrow(
-			CompilerError,
-		);
+		expect(() => compileStep(spec, "any", makeCtx())).toThrow(CompilerError);
 	});
 
 	it("throws CompilerError when steps is undefined", () => {
@@ -124,16 +113,12 @@ describe("compileStep error cases", () => {
 			spec_version: "1.0",
 			name: "empty",
 		};
-		expect(() => compileStep(spec, "any", makeCtx())).toThrow(
-			CompilerError,
-		);
+		expect(() => compileStep(spec, "any", makeCtx())).toThrow(CompilerError);
 	});
 
 	it("error message includes the missing step name", () => {
 		const spec = researchSpec();
-		expect(() =>
-			compileStep(spec, "ghost_step", makeCtx()),
-		).toThrow(/ghost_step/);
+		expect(() => compileStep(spec, "ghost_step", makeCtx())).toThrow(/ghost_step/);
 	});
 });
 
@@ -174,16 +159,11 @@ describe("systemPromptSegment: strategy preamble", () => {
 			simple: { description: "A simple step" },
 		});
 		const result = compileStep(spec, "simple", makeCtx());
-		expect(result.systemPromptSegment).not.toContain(
-			"## Reasoning Strategy",
-		);
+		expect(result.systemPromptSegment).not.toContain("## Reasoning Strategy");
 	});
 
 	it("shows 'unlimited' when max_iterations is not set", () => {
-		const spec = makeSpec(
-			{ step: { description: "test" } },
-			{ strategy: "cot" },
-		);
+		const spec = makeSpec({ step: { description: "test" } }, { strategy: "cot" });
 		const result = compileStep(spec, "step", makeCtx());
 		expect(result.systemPromptSegment).toContain("unlimited");
 	});
@@ -215,25 +195,19 @@ describe("systemPromptSegment: step instructions", () => {
 	it("contains step name header", () => {
 		const spec = researchSpec();
 		const result = compileStep(spec, "gather_sources", makeCtx());
-		expect(result.systemPromptSegment).toContain(
-			"## Current Step: gather_sources",
-		);
+		expect(result.systemPromptSegment).toContain("## Current Step: gather_sources");
 	});
 
 	it("contains step description", () => {
 		const spec = researchSpec();
 		const result = compileStep(spec, "gather_sources", makeCtx());
-		expect(result.systemPromptSegment).toContain(
-			"Search for and collect relevant sources",
-		);
+		expect(result.systemPromptSegment).toContain("Search for and collect relevant sources");
 	});
 
 	it("contains step instructions text", () => {
 		const spec = researchSpec();
 		const result = compileStep(spec, "gather_sources", makeCtx());
-		expect(result.systemPromptSegment).toContain(
-			"Minimum 3 independent sources required",
-		);
+		expect(result.systemPromptSegment).toContain("Minimum 3 independent sources required");
 	});
 
 	it("handles step with no instructions (description only)", () => {
@@ -242,9 +216,7 @@ describe("systemPromptSegment: step instructions", () => {
 		});
 		const result = compileStep(spec, "no_instructions", makeCtx());
 		expect(result.systemPromptSegment).toContain("Just a description");
-		expect(result.systemPromptSegment).toContain(
-			"## Current Step: no_instructions",
-		);
+		expect(result.systemPromptSegment).toContain("## Current Step: no_instructions");
 	});
 
 	it("handles step with no description (instructions only)", () => {
@@ -253,9 +225,7 @@ describe("systemPromptSegment: step instructions", () => {
 		});
 		const result = compileStep(spec, "no_desc", makeCtx());
 		expect(result.systemPromptSegment).toContain("Do the thing");
-		expect(result.systemPromptSegment).toContain(
-			"## Current Step: no_desc",
-		);
+		expect(result.systemPromptSegment).toContain("## Current Step: no_desc");
 	});
 
 	it("handles step with neither description nor instructions", () => {
@@ -310,21 +280,13 @@ describe("metadata", () => {
 
 	it("attemptNumber comes from context", () => {
 		const spec = researchSpec();
-		const result = compileStep(
-			spec,
-			"gather_sources",
-			makeCtx({ attemptNumber: 3 }),
-		);
+		const result = compileStep(spec, "gather_sources", makeCtx({ attemptNumber: 3 }));
 		expect(result.metadata.attemptNumber).toBe(3);
 	});
 
 	it("branchTaken comes from context.branchReason", () => {
 		const spec = researchSpec();
-		const result = compileStep(
-			spec,
-			"gather_sources",
-			makeCtx({ branchReason: "low_confidence" }),
-		);
+		const result = compileStep(spec, "gather_sources", makeCtx({ branchReason: "low_confidence" }));
 		expect(result.metadata.branchTaken).toBe("low_confidence");
 	});
 
