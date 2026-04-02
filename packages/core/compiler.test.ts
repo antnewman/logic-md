@@ -968,3 +968,142 @@ describe("compileStep: qualityGates", () => {
 		});
 	});
 });
+
+// =============================================================================
+// Self-Reflection Compilation
+// =============================================================================
+
+describe("compileStep: selfReflection", () => {
+	it("rubric self-verification compiles to selfReflection", () => {
+		const spec: LogicSpec = {
+			...makeSpec({
+				analyzed: { description: "Analyze data" },
+			}),
+			quality_gates: {
+				self_verification: {
+					enabled: true,
+					strategy: "rubric",
+					rubric: {
+						criteria: [
+							{ name: "accuracy", weight: 0.4, description: "Factual correctness" },
+							{ name: "completeness", weight: 0.6, description: "Covers all aspects" },
+						],
+						minimum_score: 0.7,
+					},
+				},
+			},
+		};
+		const result = compileStep(spec, "analyzed", makeCtx());
+		expect(result.selfReflection).not.toBeNull();
+		expect(result.selfReflection!.minimumScore).toBe(0.7);
+		expect(result.selfReflection!.prompt).toContain("accuracy");
+		expect(result.selfReflection!.prompt).toContain("completeness");
+		expect(result.selfReflection!.prompt).toContain("0.4");
+		expect(result.selfReflection!.prompt).toContain("0.6");
+		expect(result.selfReflection!.prompt).toContain("Factual correctness");
+		expect(result.selfReflection!.prompt).toContain("Covers all aspects");
+	});
+
+	it("self-reflection prompt is human-readable", () => {
+		const spec: LogicSpec = {
+			...makeSpec({
+				analyzed: { description: "Analyze data" },
+			}),
+			quality_gates: {
+				self_verification: {
+					enabled: true,
+					strategy: "rubric",
+					rubric: {
+						criteria: [
+							{ name: "accuracy", weight: 0.4, description: "Factual correctness" },
+							{ name: "completeness", weight: 0.6, description: "Covers all aspects" },
+						],
+						minimum_score: 0.7,
+					},
+				},
+			},
+		};
+		const result = compileStep(spec, "analyzed", makeCtx());
+		expect(result.selfReflection).not.toBeNull();
+		const prompt = result.selfReflection!.prompt;
+		// Contains a self-evaluation header
+		expect(prompt).toMatch(/Self-Evaluation|Review your output/i);
+		// Contains each criterion listed
+		expect(prompt).toContain("accuracy");
+		expect(prompt).toContain("completeness");
+		// Contains instruction to score
+		expect(prompt).toMatch(/score/i);
+	});
+
+	it("disabled self-verification returns null", () => {
+		const spec: LogicSpec = {
+			...makeSpec({
+				analyzed: { description: "Analyze data" },
+			}),
+			quality_gates: {
+				self_verification: {
+					enabled: false,
+					strategy: "rubric",
+					rubric: {
+						criteria: [
+							{ name: "accuracy", weight: 0.4, description: "Factual correctness" },
+						],
+						minimum_score: 0.7,
+					},
+				},
+			},
+		};
+		const result = compileStep(spec, "analyzed", makeCtx());
+		expect(result.selfReflection).toBeNull();
+	});
+
+	it("missing self-verification returns null", () => {
+		const spec = researchSpec();
+		const result = compileStep(spec, "gather_sources", makeCtx());
+		expect(result.selfReflection).toBeNull();
+	});
+
+	it("reflection strategy compiles to selfReflection", () => {
+		const spec: LogicSpec = {
+			...makeSpec({
+				reviewed: { description: "Review output" },
+			}),
+			quality_gates: {
+				self_verification: {
+					enabled: true,
+					strategy: "reflection",
+					reflection: {
+						prompt: "Review your response for accuracy and bias",
+						max_revisions: 2,
+					},
+				},
+			},
+		};
+		const result = compileStep(spec, "reviewed", makeCtx());
+		expect(result.selfReflection).not.toBeNull();
+		expect(result.selfReflection!.prompt).toContain("Review your response for accuracy and bias");
+		expect(result.selfReflection!.minimumScore).toBe(0);
+	});
+
+	it("rubric without minimum_score defaults to 0.5", () => {
+		const spec: LogicSpec = {
+			...makeSpec({
+				analyzed: { description: "Analyze data" },
+			}),
+			quality_gates: {
+				self_verification: {
+					enabled: true,
+					strategy: "rubric",
+					rubric: {
+						criteria: [
+							{ name: "clarity", weight: 1.0, description: "Clear and concise" },
+						],
+					},
+				},
+			},
+		};
+		const result = compileStep(spec, "analyzed", makeCtx());
+		expect(result.selfReflection).not.toBeNull();
+		expect(result.selfReflection!.minimumScore).toBe(0.5);
+	});
+});
