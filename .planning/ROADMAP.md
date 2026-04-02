@@ -240,7 +240,10 @@ Plans:
   1. vitest coverage report shows 90%+ on all compiler module files (lines, branches, functions, statements)
   2. Tests cover linear workflows, branching workflows, retry context injection, and quality gate compilation
   3. Tests cover self-reflection prompts, parallel step groups, token estimation warnings, and edge cases (no steps, single step, missing optional fields)
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 17-01-PLAN.md -- TDD gap-filling tests for workflow shapes, self-reflection edge cases, and coverage verification
 
 ## Progress
 
@@ -266,4 +269,4 @@ Note: Phase 13 depends on Phase 11 (not 12), so 12 and 13 can run in parallel af
 | 14. Token Estimation | v1.1 | Complete    | 2026-04-02 | - |
 | 15. Workflow Compiler | 1/1 | Complete    | 2026-04-02 | - |
 | 16. CLI Compile Step | 1/1 | Complete    | 2026-04-02 | - |
-| 17. Compiler Test Coverage | v1.1 | 0/0 | Not started | - |
+| 17. Compiler Test Coverage | v1.1 | 0/1 | In Progress | - |
