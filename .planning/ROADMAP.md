@@ -162,8 +162,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 11-01-PLAN.md -- TDD compileStep core: strategy preamble, step instructions, and metadata via DAG resolver
-- [ ] 11-02-PLAN.md -- TDD output schema compilation, retry policy compilation, and integration tests against research-synthesizer
+- [x] 11-01-PLAN.md -- TDD compileStep core: strategy preamble, step instructions, and metadata via DAG resolver
+- [x] 11-02-PLAN.md -- TDD output schema compilation, retry policy compilation, and integration tests against research-synthesizer
 
 ### Phase 12: Step Compiler Context
 **Goal**: Compiled step prompt segments include all contextual information: branch reasoning, retry state, confidence requirements, and quality gate checklists
@@ -174,7 +174,11 @@ Plans:
   2. When a step is being retried, the prompt segment includes the attempt number and the reason the previous attempt failed
   3. Steps with confidence thresholds include instructions requiring the agent to meet the minimum confidence level
   4. Steps with active quality gates include a "Before responding, verify: ..." checklist in the prompt segment
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 12-01-PLAN.md -- TDD branch context and retry context sections in systemPromptSegment
+- [ ] 12-02-PLAN.md -- TDD confidence thresholds and quality gate checklist sections in systemPromptSegment
 
 ### Phase 13: Quality Gate Compilation
 **Goal**: Quality gates from LOGIC.md specs compile into executable validator functions that can evaluate step output
@@ -247,7 +251,7 @@ Note: Phase 13 depends on Phase 11 (not 12), so 12 and 13 can run in parallel af
 | 9. Test Coverage & Integration | v1.0 | 3/3 | Complete | 2026-04-01 |
 | 10. Compiler Types & Foundation | v1.1 | 1/1 | Complete | 2026-04-01 |
 | 11. Step Compiler Core | 2/2 | Complete    | 2026-04-02 | - |
-| 12. Step Compiler Context | v1.1 | 0/0 | Not started | - |
+| 12. Step Compiler Context | v1.1 | 0/2 | Not started | - |
 | 13. Quality Gate Compilation | v1.1 | 0/0 | Not started | - |
 | 14. Token Estimation | v1.1 | 0/1 | Not started | - |
 | 15. Workflow Compiler | v1.1 | 0/0 | Not started | - |
