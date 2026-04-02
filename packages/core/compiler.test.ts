@@ -630,11 +630,7 @@ describe("systemPromptSegment: branch context", () => {
 describe("systemPromptSegment: retry context", () => {
 	it("includes retry context section when attemptNumber > 1", () => {
 		const spec = researchSpec();
-		const result = compileStep(
-			spec,
-			"gather_sources",
-			makeCtx({ attemptNumber: 2 }),
-		);
+		const result = compileStep(spec, "gather_sources", makeCtx({ attemptNumber: 2 }));
 		expect(result.systemPromptSegment).toContain("## Retry Context");
 		expect(result.systemPromptSegment).toContain("Attempt 2");
 	});
@@ -654,11 +650,7 @@ describe("systemPromptSegment: retry context", () => {
 
 	it("includes max attempts from retry policy when step has retry config", () => {
 		const spec = researchSpec();
-		const result = compileStep(
-			spec,
-			"gather_sources",
-			makeCtx({ attemptNumber: 2 }),
-		);
+		const result = compileStep(spec, "gather_sources", makeCtx({ attemptNumber: 2 }));
 		expect(result.systemPromptSegment).toContain("3");
 	});
 
@@ -1045,9 +1037,7 @@ describe("compileStep: selfReflection", () => {
 					enabled: false,
 					strategy: "rubric",
 					rubric: {
-						criteria: [
-							{ name: "accuracy", weight: 0.4, description: "Factual correctness" },
-						],
+						criteria: [{ name: "accuracy", weight: 0.4, description: "Factual correctness" }],
 						minimum_score: 0.7,
 					},
 				},
@@ -1095,9 +1085,7 @@ describe("compileStep: selfReflection", () => {
 					enabled: true,
 					strategy: "rubric",
 					rubric: {
-						criteria: [
-							{ name: "clarity", weight: 1.0, description: "Clear and concise" },
-						],
+						criteria: [{ name: "clarity", weight: 1.0, description: "Clear and concise" }],
 					},
 				},
 			},

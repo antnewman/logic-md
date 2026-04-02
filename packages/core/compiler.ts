@@ -79,10 +79,7 @@ function formatStepInstructions(stepName: string, step: Step): string {
  * Explains why this branch was taken and lists alternative branches if present.
  */
 function formatBranchContext(reason: string, step: Step): string {
-	const lines: string[] = [
-		"## Branch Context",
-		`This step was reached because: ${reason}`,
-	];
+	const lines: string[] = ["## Branch Context", `This step was reached because: ${reason}`];
 
 	if (step.branches && step.branches.length > 0) {
 		lines.push("");
@@ -130,9 +127,7 @@ function formatConfidenceRequirements(confidence: ConfidenceConfig): string {
 	const lines: string[] = ["## Confidence Requirements"];
 
 	if (confidence.minimum !== undefined) {
-		lines.push(
-			`You must achieve a minimum confidence of ${confidence.minimum} in your response.`,
-		);
+		lines.push(`You must achieve a minimum confidence of ${confidence.minimum} in your response.`);
 	}
 
 	if (confidence.target !== undefined) {
@@ -246,8 +241,7 @@ function compileSelfReflection(
 
 	if (selfVerification.strategy === "reflection" && selfVerification.reflection) {
 		const prompt =
-			selfVerification.reflection.prompt ??
-			"Review your output for accuracy and completeness.";
+			selfVerification.reflection.prompt ?? "Review your output for accuracy and completeness.";
 		return { prompt, minimumScore: 0 };
 	}
 
@@ -342,9 +336,10 @@ export function compileStep(
 	const systemPromptSegment = segments.join("\n\n");
 
 	const estimatedTokens = estimateTokens(systemPromptSegment);
-	const tokenWarning = estimatedTokens > 2000
-		? `Prompt segment is ~${estimatedTokens} tokens (exceeds 2000 token budget)`
-		: undefined;
+	const tokenWarning =
+		estimatedTokens > 2000
+			? `Prompt segment is ~${estimatedTokens} tokens (exceeds 2000 token budget)`
+			: undefined;
 
 	return {
 		systemPromptSegment,
@@ -352,7 +347,9 @@ export function compileStep(
 		qualityGates: (() => {
 			const gates: QualityGateValidator[] = [];
 			if (step.verification) {
-				gates.push(compileGateValidator(step.verification.check, step.verification.on_fail_message));
+				gates.push(
+					compileGateValidator(step.verification.check, step.verification.on_fail_message),
+				);
 			}
 			if (spec.quality_gates?.pre_output) {
 				for (const gate of spec.quality_gates.pre_output) {
