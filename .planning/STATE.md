@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Developers can define agent reasoning strategies in a portable, declarative file format -- parsed and validated by a standalone library.
-**Current focus:** Phase 15: Workflow Compiler
+**Current focus:** Phase 16: CLI Compile Step
 
 ## Current Position
 
-Phase: 15 of 17 (Workflow Compiler) -- COMPLETE
+Phase: 16 of 17 (CLI Compile Step) -- COMPLETE
 Plan: 01 of 01 -- COMPLETE
 Status: Phase Complete
-Last activity: 2026-04-02 -- Phase 15 Plan 01 executed
+Last activity: 2026-04-02 -- Phase 16 Plan 01 executed
 
-Progress: [################....] 82% (15/17 phases complete)
+Progress: [#################...] 88% (16/17 phases complete)
 
 ## Performance Metrics
 
@@ -45,6 +45,7 @@ Progress: [################....] 82% (15/17 phases complete)
 | Phase 13 P01 | 3min | 2 tasks | 2 files |
 | Phase 13 P02 | 2min | 2 tasks | 2 files |
 | Phase 15 P01 | 2min | 2 tasks | 2 files |
+| Phase 16 P01 | 2min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,8 @@ Recent decisions affecting current work:
 - [Phase 15]: Global quality gates compiled via existing compileGateValidator (module-private, no export needed)
 - [Phase 15]: Empty steps handled as early return with zero-length arrays
 - [Phase 15]: DAG errors propagated as CompilerError with joined error messages
+- [Phase 16]: qualityGates functions replaced with qualityGateCount integer in CLI JSON output
+- [Phase 16]: ExecutionContext built with defaults (attemptNumber 1, null branch/failure) for CLI single-step compile
 
 ### Pending Todos
 
@@ -90,5 +93,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-04-02
-Stopped at: Completed 15-01-PLAN.md (Phase 15 complete)
+Stopped at: Completed 16-01-PLAN.md (Phase 16 complete)
 Resume file: None

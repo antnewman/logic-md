@@ -44,8 +44,8 @@
 
 ### CLI Update
 
-- [ ] **CLIU-01**: `logic-md compile --step <stepName>` compiles a specific step with context
-- [ ] **CLIU-02**: Step compilation output includes self-reflection prompt if enabled in spec
+- [x] **CLIU-01**: `logic-md compile --step <stepName>` compiles a specific step with context
+- [x] **CLIU-02**: Step compilation output includes self-reflection prompt if enabled in spec
 
 ### Testing
 
@@ -99,8 +99,8 @@ All v1.0 requirements shipped and validated. See MILESTONES.md for details.
 | TOKN-02 | Phase 14 | Pending |
 | TYPE-01 | Phase 10 | Complete |
 | TYPE-02 | Phase 10 | Complete |
-| CLIU-01 | Phase 16 | Pending |
-| CLIU-02 | Phase 16 | Pending |
+| CLIU-01 | Phase 16 | Complete |
+| CLIU-02 | Phase 16 | Complete |
 | CTST-01 | Phase 17 | Pending |
 | CTST-02 | Phase 17 | Pending |
 | CTST-03 | Phase 17 | Pending |
