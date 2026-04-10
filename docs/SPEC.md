@@ -867,7 +867,95 @@ LOGIC.md files include `spec_version` for forward compatibility. Parsers MUST:
 - Reject (with clear error) versions they don't support
 - Never silently ignore unknown properties (warn instead)
 
-Future versions may add properties but will NOT remove or rename existing ones within the same major version.
+### 14.1 Spec Versioning Contract
+
+The specification version (`spec_version` field) follows semantic versioning at the spec level, independent of any implementation's package version:
+
+**Minor versions** (1.1, 1.2, etc.) are strictly additive. A file valid under spec 1.0 MUST be valid under any 1.x parser. Minor versions MAY add new optional properties, new enum values to existing enums, or new definition types. They MUST NOT remove properties, change property types, or add new required fields.
+
+**Major versions** (2.0, etc.) MAY introduce breaking changes: removing properties, renaming fields, changing type constraints, or adding new required fields. Major version bumps MUST include migration documentation and SHOULD include automated migration tooling.
+
+### 14.2 Spec Version vs Implementation Version
+
+A LOGIC.md implementation (parser, validator, compiler) has its own version (e.g., `@logic-md/core@1.4.0`). The spec version it supports is declared separately. An implementation MUST declare which spec versions it supports. The reference implementation at `@logic-md/core` supports spec version 1.0.
+
+---
+
+## 15. Conformance
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
+
+### 15.1 Parser Conformance
+
+A conformant LOGIC.md parser:
+
+1. **MUST** extract YAML frontmatter from between `---` delimiters
+2. **MUST** parse the YAML to a data structure
+3. **MUST** validate the parsed data against the canonical JSON Schema (`spec/schema.json`)
+4. **MUST** reject files missing the required `spec_version` and `name` properties
+5. **MUST** reject files with `spec_version` values the implementation does not support
+6. **MUST NOT** silently discard unknown properties — implementations MUST either reject them (if the schema specifies `additionalProperties: false`) or emit a warning
+7. **SHOULD** report validation errors with paths mapping to the original YAML structure
+8. **MAY** parse the markdown body for informational use but MUST NOT require it for validation
+
+### 15.2 Compiler Conformance
+
+A conformant LOGIC.md compiler (optional — not all implementations need one):
+
+1. **MUST** resolve step DAGs using topological sort and detect cycles
+2. **MUST** compute parallel execution levels for steps with no dependency relationship
+3. **SHOULD** generate prompt segments that include execution mandates when output contracts are present
+4. **SHOULD** inject quality gate rules into the generated context
+
+### 15.3 Conformance Test Suite
+
+The canonical conformance test suite is located at `spec/fixtures/`. It contains:
+
+- `valid/` — Files that MUST parse and validate successfully
+- `invalid/` — Files that MUST fail validation with errors at specified paths
+- `edge-cases/` — Files testing boundary conditions
+
+Each fixture consists of a `.logic.md` input file paired with an `.expected.json` result file. Any implementation in any language can verify conformance by running all fixtures and comparing results.
+
+An implementation is conformant if:
+- All `valid/` fixtures parse and validate without errors
+- All `invalid/` fixtures produce at least one error at the path specified in the expected result
+- All `edge-cases/` fixtures produce the result documented in their expected file
+
+---
+
+## 16. Discovery
+
+### 16.1 File Naming Conventions
+
+| Pattern | Scope |
+|---------|-------|
+| `LOGIC.md` | Root-level default for entire project |
+| `*.logic.md` | Named reasoning configs (e.g., `researcher.logic.md`) |
+| `.logic/` | Directory for complex multi-file configs |
+| `.logic/index.md` | Entry point when using directory structure |
+
+Visual builders SHOULD scan for `*.logic.md` files in plugin/node directories and auto-register them.
+
+### 16.2 Project Discovery
+
+Agents and tools that want to discover LOGIC.md specs in a project SHOULD look in this order:
+
+1. `LOGIC.md` at the project root
+2. `*.logic.md` in the project root
+3. `.logic/` directory
+4. `*.logic.md` in subdirectories (recursive)
+
+### 16.3 Agent Capability Advertisement
+
+A LOGIC.md file with a `contracts` section is a capability advertisement. It declares:
+
+- **What the agent accepts** (`contracts.inputs`)
+- **What the agent produces** (`contracts.outputs`)
+- **How reliably** (`quality_gates`, `fallback`)
+- **Through what reasoning process** (`reasoning`, `steps`)
+
+When two agents' contracts align — Agent A's `contracts.outputs` structurally satisfies Agent B's `contracts.inputs` — they can compose. This pattern mirrors the capability advertisement in the A2A protocol's Agent Card, but expressed as a portable file rather than a runtime endpoint.
 
 ---
 

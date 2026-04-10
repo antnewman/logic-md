@@ -1,0 +1,4 @@
+---
+spec_version: "1.0"
+name: no-body
+---

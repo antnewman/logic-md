@@ -1,0 +1,33 @@
+---
+spec_version: "1.0"
+name: research-pipeline
+description: "Multi-agent research workflow"
+global:
+  max_total_time: "300s"
+  max_total_cost: 0.50
+  fail_fast: false
+  max_parallelism: 3
+nodes:
+  researcher:
+    logic_ref: "./nodes/researcher.logic.md"
+    overrides:
+      reasoning.max_iterations: 5
+  synthesizer:
+    logic_ref: "./nodes/synthesizer.logic.md"
+    depends_on:
+      - researcher
+edges:
+  - from: researcher
+    to: synthesizer
+    contract:
+      type: object
+      required:
+        - findings
+      properties:
+        findings:
+          type: array
+          minItems: 1
+    on_contract_violation: retry_source
+---
+
+Tests workflow-level multi-agent spec with global config, node refs, and edge contracts.

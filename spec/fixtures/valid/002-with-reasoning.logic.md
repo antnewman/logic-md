@@ -1,0 +1,12 @@
+---
+spec_version: "1.0"
+name: reasoner
+description: "Agent with reasoning strategy"
+reasoning:
+  strategy: react
+  max_iterations: 8
+  temperature: 0.3
+  thinking_budget: 16000
+---
+
+Tests that the reasoning configuration parses correctly with all optional fields.

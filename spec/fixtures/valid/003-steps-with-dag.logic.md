@@ -1,0 +1,28 @@
+---
+spec_version: "1.0"
+name: dag-pipeline
+reasoning:
+  strategy: cot
+steps:
+  gather:
+    description: "Gather source data"
+    instructions: "Collect relevant sources"
+    allowed_tools:
+      - web_search
+    timeout: "60s"
+  evaluate:
+    description: "Evaluate source quality"
+    needs:
+      - gather
+    instructions: "Score each source for credibility"
+  synthesize:
+    description: "Produce final report"
+    needs:
+      - evaluate
+    instructions: "Combine findings into structured report"
+    verification:
+      check: "{{ output.findings.length > 0 }}"
+      on_fail: retry
+---
+
+Tests step DAG with dependencies, tool permissions, timeout, and verification.
