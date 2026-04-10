@@ -170,9 +170,17 @@ LOGIC.md operates at a different abstraction level: reasoning architecture rathe
 
 ---
 
-## Quick start
+## Getting Started
 
-### Core
+### As a library (TypeScript)
+
+Install the core package:
+
+```bash
+npm install @logic-md/core
+```
+
+Parse, validate, and compile specs:
 
 ```typescript
 import { parse, validate, compile } from "@logic-md/core";
@@ -185,7 +193,15 @@ const workflow = compile(validated);
 // workflow.fallbackPolicy — escalation chain
 ```
 
-### CLI
+### As a CLI tool
+
+Install globally:
+
+```bash
+npm install -g @logic-md/cli
+```
+
+Use the 9-command interface:
 
 ```bash
 # Validate a LOGIC.md file
@@ -208,6 +224,17 @@ logic-md watch my-agent.logic.md
 ```
 
 **Built-in templates:** `research-synthesizer`, `code-reviewer`, `data-analyst`, `customer-support`, `content-writer`, `security-auditor`, `bug-triager`, `api-integrator`, `document-summarizer`, `decision-maker`, `plan-and-execute`, `react-loop`
+
+### In Python (alpha)
+
+The Python SDK is available at [`sdks/python/`](sdks/python/) with parser and validator support. Install from source:
+
+```bash
+cd sdks/python
+pip install -e .
+```
+
+See the Python SDK README for usage examples.
 
 ### MCP server
 
@@ -276,6 +303,57 @@ See [`docs/SPEC.md`](docs/SPEC.md) for the full v1.0 specification.
 | AutoGen | Conversation patterns in Python — reasoning in system messages | No (Python) |
 | DSPy | Composable signatures with prompt optimization — declarative but Python-bound | No (Python) |
 | **LOGIC.md** | **Reasoning flow, step DAGs, multi-agent contracts, quality gates** | **Yes (markdown/YAML)** |
+
+---
+
+## Ecosystem
+
+The logic-md ecosystem spans packages, SDKs, adapters, editor support, and CI/CD tooling.
+
+### Packages (all on npm)
+
+- **@logic-md/core** — Parser, validator, compiler, DAG resolver, expression engine, dry-run executor
+- **@logic-md/cli** — 9-command CLI: `validate`, `lint`, `compile`, `init`, `test`, `watch`, `fmt`, `diff`, `completion`
+- **@logic-md/mcp** — MCP server with 7 tools for AI agent integration
+
+### SDKs
+
+- **TypeScript** (reference implementation) — `@logic-md/core` on npm
+- **Python** (alpha) — Parser + validator, conformance tested — [`sdks/python/`](sdks/python/)
+
+### Adapters
+
+- **LangGraph** (experimental) — Converts specs to `StateGraph` definitions — [`adapters/langgraph/`](adapters/langgraph/)
+
+### Editor Support
+
+- **VSCode extension** — Syntax highlighting + snippets — [`editors/vscode/`](editors/vscode/)
+
+### CI/CD
+
+- **GitHub Action** — Validates `.logic.md` files in any repo — [`.github/actions/validate/`](.github/actions/validate/)
+
+---
+
+## Conformance
+
+LOGIC.md specs are validated against a canonical specification to ensure implementations across languages remain compatible.
+
+- **Canonical JSON Schema** at [`spec/schema.json`](spec/schema.json)
+- **18 conformance test fixtures** at [`spec/fixtures/`](spec/fixtures/)
+- **Three conformance tiers:**
+  - **Parser** — Read and tokenize LOGIC.md files
+  - **Runtime** — Parse, validate, and execute execution plans
+  - **Full Adapter** — Implement all features including quality gates and multi-agent DAGs
+
+For building implementations in other languages, see [`docs/IMPLEMENTER-GUIDE.md`](docs/IMPLEMENTER-GUIDE.md).
+
+### Known implementations
+
+| Language | Package | Conformance | Maintainer |
+|----------|---------|-------------|------------|
+| TypeScript | @logic-md/core | Full | SingleSourceStudios |
+| Python | logic-md (alpha) | Parser | SingleSourceStudios |
 
 ---
 

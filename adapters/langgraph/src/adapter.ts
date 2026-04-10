@@ -61,7 +61,7 @@ export function toStateGraphFromContent(
   const spec = parseResult.data;
 
   // Step 2: Validate the parsed spec
-  const validateResult = validate(spec);
+  const validateResult = validate(specContent);
   if (!validateResult.ok) {
     const message = validateResult.errors
       .map((e) => `${e.path}: ${e.message}`)
@@ -177,7 +177,7 @@ function buildGraphDefinition(
   );
 
   // Build nodes from compiled steps
-  const nodes: StateGraphNode[] = flatOrder.map((stepName, index) => {
+  const nodes: StateGraphNode[] = flatOrder.map((stepName) => {
     const compiledStep = compiledStepMap.get(stepName);
     if (!compiledStep) {
       console.warn(`No compiled step found for ${stepName}`);
@@ -210,7 +210,7 @@ function buildGraphDefinition(
     return {
       name: stepName,
       promptSegment: compiledStep.systemPromptSegment,
-      outputSchema: compiledStep.outputSchema,
+      outputSchema: (compiledStep.outputSchema as Record<string, unknown>) ?? null,
       metadata: {
         stepName,
         dagLevel: compiledStep.metadata.dagLevel,

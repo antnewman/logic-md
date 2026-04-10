@@ -1,0 +1,13 @@
+.git
+.gitignore
+.gitattributes
+*.vsix
+node_modules/
+src/
+tsconfig.json
+webpack.config.js
+vsc-extension-quickstart.md
+**/.DS_Store
+**/*.map
+**/*.ts
+!**/*.d.ts

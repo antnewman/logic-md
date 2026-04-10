@@ -267,11 +267,11 @@ Test.
       expect(parseResult.ok).toBe(true);
       if (!parseResult.ok) throw new Error("Parse failed");
 
-      const validateResult = validate(parseResult.data);
+      const validateResult = validate(content);
       expect(validateResult.ok).toBe(true);
       if (!validateResult.ok) throw new Error("Validation failed");
 
-      const graph = toStateGraphFromSpec(validateResult.data);
+      const graph = toStateGraphFromSpec(parseResult.data);
       expect(graph.nodes).toHaveLength(1);
       expect(graph.nodes[0]!.name).toBe("task");
     });
@@ -302,11 +302,11 @@ Full documentation.
       expect(parseResult.ok).toBe(true);
       if (!parseResult.ok) throw new Error("Parse failed");
 
-      const validateResult = validate(parseResult.data);
+      const validateResult = validate(content);
       expect(validateResult.ok).toBe(true);
       if (!validateResult.ok) throw new Error("Validation failed");
 
-      const graph = toStateGraphFromSpec(validateResult.data);
+      const graph = toStateGraphFromSpec(parseResult.data);
       expect(graph.metadata.workflowName).toBe("documented-workflow");
       expect(graph.nodes[0]!.promptSegment).toBe("Begin here.");
       expect(graph.nodes[0]!.outputSchema).toBeDefined();

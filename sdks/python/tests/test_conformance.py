@@ -11,10 +11,11 @@ from logic_md.validator import validate
 def get_fixture_files():
     """Collect all .logic.md fixture files from spec/fixtures/."""
     test_dir = Path(__file__).parent
-    fixtures_dir = test_dir.parent.parent.parent.parent / "spec" / "fixtures"
+    # From tests/test_conformance.py -> sdks/python/ -> logic-md/ -> spec/fixtures/
+    fixtures_dir = test_dir.parent.parent.parent / "spec" / "fixtures"
 
     if not fixtures_dir.exists():
-        pytest.skip(f"Fixtures directory not found: {fixtures_dir}")
+        return []
 
     # Glob for all .logic.md files
     fixture_files = sorted(fixtures_dir.glob("**/*.logic.md"))
@@ -36,11 +37,10 @@ def test_conformance(fixture_file):
     3. Validate the parsed spec
     4. Compare results against expected
     """
-    expected_file = fixture_file.with_suffix(".expected.json").name
-    expected_path = fixture_file.parent / expected_file.replace(".logic.md", "").replace(".expected.json", ".expected.json")
-
-    # Handle the naming correctly
-    expected_path = fixture_file.with_name(fixture_file.stem + ".expected.json")
+    # Expected file has same base name but .expected.json instead of .logic.md
+    # e.g., 001-minimal.logic.md -> 001-minimal.expected.json
+    base_name = fixture_file.name.replace(".logic.md", "")
+    expected_path = fixture_file.parent / (base_name + ".expected.json")
 
     if not expected_path.exists():
         pytest.fail(f"Expected file not found: {expected_path}")
