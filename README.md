@@ -382,8 +382,8 @@ For building implementations in other languages, see [`docs/IMPLEMENTER-GUIDE.md
 
 | Language | Package | Conformance | Maintainer |
 |----------|---------|-------------|------------|
-| TypeScript | @logic-md/core | Full | SingleSourceStudios |
-| Python | logic-md (alpha) | Parser | SingleSourceStudios |
+| TypeScript | @logic-md/core | Full | SingularityAI-Dev |
+| Python | logic-md (alpha) | Parser | SingularityAI-Dev |
 
 ---
 
