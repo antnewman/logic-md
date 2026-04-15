@@ -319,20 +319,20 @@ See [`docs/SPEC.md`](docs/SPEC.md) for the full v1.0 specification.
 
 ## What exists today vs LOGIC.md
 
-| Standard / Framework | What it handles | Portable file format? |
+| | Handles | Portable |
 |---|---|---|
-| CLAUDE.md / AGENTS.md | Identity, project context, build commands, code style | Yes (markdown) |
-| OpenClaw SOUL.md | Personality, behavioural rules, agent identity | Yes (markdown) |
-| Cursor .mdc rules | Coding conventions with activation modes | Yes (markdown) |
-| MCP | Agent ↔ tool connectivity | Protocol spec |
-| A2A Protocol | Agent ↔ agent communication | Protocol spec |
-| BAML | Type-safe output schemas, structured extraction, cross-language codegen | Yes (custom DSL) |
-| Instructor | Pydantic-based output validation for individual LLM calls | No (library) |
-| LangGraph | Reasoning as imperative Python StateGraph code | No (Python) |
-| CrewAI | YAML for agent roles and tasks — reasoning is a boolean flag | Partial (YAML + Python) |
-| AutoGen | Conversation patterns in Python — reasoning in system messages | No (Python) |
-| DSPy | Composable signatures with prompt optimization — declarative but Python-bound | No (Python) |
-| **LOGIC.md** | **Reasoning flow, step DAGs, multi-agent contracts, quality gates** | **Yes (markdown/YAML)** |
+| CLAUDE.md / AGENTS.md | Identity, project context, code style | Markdown |
+| OpenClaw SOUL.md | Personality, behavioural rules | Markdown |
+| Cursor `.mdc` rules | Coding conventions with activation modes | Markdown |
+| MCP | Agent ↔ tool connectivity | Protocol |
+| A2A Protocol | Agent ↔ agent communication | Protocol |
+| BAML | Typed output schemas, cross-language codegen | Custom DSL |
+| Instructor | Pydantic validation for individual LLM calls | Library |
+| LangGraph | Reasoning as imperative StateGraph code | Python |
+| CrewAI | YAML for roles/tasks, reasoning as a bool | Partial |
+| AutoGen | Conversation patterns, reasoning in messages | Python |
+| DSPy | Composable signatures + prompt optimization | Python |
+| **LOGIC.md** | **Step DAGs, contracts, quality gates, multi-agent** | **Markdown / YAML** |
 
 ---
 
@@ -398,22 +398,43 @@ For building implementations in other languages, see [`docs/IMPLEMENTER-GUIDE.md
 
 ---
 
+## Benchmarks
+
+LOGIC.md's thesis — that declarative contracts + quality gates measurably improve multi-step reasoning reliability — is internally validated (Modular9 integration) but not yet benchmarked across model families.
+
+**Preliminary (Llama 3.1 70B, April 2026):** single-model artifact-rate comparison between freeform prompting and LOGIC.md-compiled prompts. Deltas were within variance. Conclusion: inconclusive on weaker open-weight models; a meaningful signal likely requires frontier models where instruction-following is tight enough to expose the contract effect. See [`benchmarks/`](benchmarks/) for the harness and raw runs.
+
+**Next:** cross-model sweep on Claude Sonnet and GPT-4o class models, same harness, measuring (a) artifact-rate — does the step produce the declared output shape, (b) handoff fidelity — does the next step receive usable data, and (c) latency-adjusted reliability under a fixed retry budget.
+
+If you have API credits and want to co-run the benchmark, [open an issue](https://github.com/SingleSourceStudios/logic-md/issues) — the harness is reproducible and raw outputs will be published regardless of outcome.
+
+---
+
 ## Roadmap
 
+**Shipped (v1.4)**
+- `@logic-md/core`, `@logic-md/cli`, `@logic-md/mcp` on npm · `logic-md` (alpha) on PyPI
+- 9-command CLI with 12 templates · 7-tool MCP server (stdio + HTTP)
+- LangGraph adapter (experimental) · VSCode extension · GitHub Action for CI
+- 325 tests · 95.9% branch coverage on compiler · 18 conformance fixtures · canonical JSON Schema
+
 **Near term**
-- Publish `@logic-md/core`, `@logic-md/cli`, `@logic-md/mcp` to npm
-- Documentation site at logic-md.org with spec reference and getting started guide
-- Template marketplace following the cursor.directory model
+- Cross-model benchmark suite on frontier models (Claude Sonnet, GPT-4o)
+- VSCode marketplace publish
+- Python SDK feature parity — compiler + dry-run executor matching TypeScript
+- LangGraph adapter Phase 2 — branch support, quality-gate enforcement, parallel execution
+- Documentation site at logic-md.org
 
 **Medium term**
-- Framework adapters: LangGraph wrapper, CrewAI integration, AutoGen integration
-- VSCode extension for syntax highlighting, validation, and inline lint
-- GitHub Action for CI validation and lint in PRs
-- Python SDK matching the TypeScript spec exactly
+- CrewAI and AutoGen adapters
+- Template marketplace (cursor.directory model)
+- Additional language implementations (Rust / Go) — the canonical JSON Schema makes these tractable
+- Reasoning pattern analytics on collected conformance traces
 
 **Long term**
-- Enterprise features: hosted dashboard, reasoning pattern analytics, compliance tooling
-- v2.0 spec incorporating new reasoning paradigms as they emerge
+- Hosted validation + analytics dashboard
+- v2.0 spec absorbing new reasoning paradigms (looped / latent / adaptive-depth) as they stabilise
+- Compliance tooling for regulated deployments
 
 ---
 
