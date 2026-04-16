@@ -1,0 +1,8 @@
+{
+	"mcpServers": {
+		"logic-md": {
+			"command": "node",
+			"args": ["./packages/mcp/dist/index.js"]
+		}
+	}
+}

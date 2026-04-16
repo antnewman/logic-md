@@ -136,14 +136,20 @@
 			"properties": {
 				"minimum": {
 					"type": "number",
+					"minimum": 0,
+					"maximum": 1,
 					"description": "Below this value the step fails"
 				},
 				"target": {
 					"type": "number",
+					"minimum": 0,
+					"maximum": 1,
 					"description": "Aim for this confidence level"
 				},
 				"escalate_below": {
 					"type": "number",
+					"minimum": 0,
+					"maximum": 1,
 					"description": "Below this value escalate to human/supervisor"
 				}
 			}
@@ -374,12 +380,12 @@
 				},
 				"on_input_violation": {
 					"type": "string",
-					"enum": ["reject", "coerce", "warn", "retry", "escalate"],
+					"enum": ["reject", "coerce", "warn"],
 					"description": "Action when input violates the contract"
 				},
 				"on_output_violation": {
 					"type": "string",
-					"enum": ["reject", "coerce", "warn", "retry", "escalate"],
+					"enum": ["retry", "warn", "escalate"],
 					"description": "Action when output violates the contract"
 				}
 			}
@@ -485,6 +491,8 @@
 				},
 				"weight": {
 					"type": "number",
+					"minimum": 0,
+					"maximum": 1,
 					"description": "Weight in scoring (0-1)"
 				},
 				"description": {
@@ -504,7 +512,9 @@
 				},
 				"minimum_score": {
 					"type": "number",
-					"description": "Minimum passing score"
+					"minimum": 0,
+					"maximum": 1,
+					"description": "Minimum passing score (0-1)"
 				}
 			}
 		},
