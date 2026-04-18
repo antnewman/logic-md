@@ -83,9 +83,16 @@ function validateDocument(doc: vscode.TextDocument): void {
 	const text = doc.getText();
 	const lines = text.split("\n");
 
-	// Check for frontmatter delimiters
-	const frontmatterStart = text.search(/^---/m);
-	const frontmatterEnd = text.search(/^---/m, frontmatterStart + 1);
+	// Check for frontmatter delimiters.
+	// NOTE: String.prototype.search() ignores any second argument, so we use a /g regex
+	// with repeated .exec() calls to find the opening and closing --- delimiters.
+	// Frontmatter must be the very first line of the document; stray --- blocks later
+	// in the file (e.g. markdown horizontal rules) must not be treated as frontmatter.
+	const fmRegex = /^---\s*$/gm;
+	const firstMatch = fmRegex.exec(text);
+	const frontmatterStart = firstMatch && firstMatch.index === 0 ? 0 : -1;
+	const secondMatch = frontmatterStart === 0 ? fmRegex.exec(text) : null;
+	const frontmatterEnd = secondMatch ? secondMatch.index : -1;
 
 	if (frontmatterStart === -1) {
 		const range = new vscode.Range(0, 0, 0, 0);
