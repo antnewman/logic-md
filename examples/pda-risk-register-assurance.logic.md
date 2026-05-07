@@ -90,6 +90,9 @@ steps:
     instructions: |
       From the risk register and any narrative mentioning risk, threat, issue,
       dependency, or assumption, extract candidate risk items. For each:
+      - risk_id (stable identifier; deterministic — e.g. SHA-256 of
+        title + cited_byte_offset, truncated to 12 hex chars. Must be unique
+        within this run and reproducible across reruns of the same artefact.)
       - title (short, imperative)
       - description (one sentence)
       - severity (1-5)
@@ -98,6 +101,8 @@ steps:
       - confidence (0-1)
       Do not invent risks not grounded in the source. If the artefact is
       ambiguous, mark confidence below 0.5 rather than fabricating clarity.
+      Downstream steps (outlier_scan, triage, human_review_gate, emit_report)
+      join on risk_id; it is the contract key for cross-step correlation.
     allowed_tools: [llm_completion, knowledge_base_search]
     denied_tools: [assurance_store_write, web_search, document_reader]
     confidence:
@@ -117,8 +122,12 @@ steps:
           type: array
           items:
             type: object
-            required: [title, description, severity, likelihood, cited_byte_offset, confidence]
+            required: [risk_id, title, description, severity, likelihood, cited_byte_offset, confidence]
             properties:
+              risk_id:
+                type: string
+                pattern: "^[a-f0-9]{12}$"
+                description: "Stable deterministic identifier (e.g. SHA-256 of title + cited_byte_offset, truncated to 12 hex chars). Used as the join key by all downstream steps."
               title: { type: string }
               description: { type: string }
               severity: { type: integer, minimum: 1, maximum: 5 }
