@@ -32,10 +32,19 @@ maximises the per-step traversal cost in the compiler.
 
 Thresholds are calibrated against `main` per the methodology agreed in #46:
 
-1. Run the bench on `main` 5 times.
+1. Run the bench on `main` repeatedly across multiple developer-machine
+   sessions with varying background load.
 2. Take the worst observed elapsed time per metric.
-3. Multiply by 1.25 (Math.ceil) for slower-machine headroom.
-4. Lock that value in as the assertion threshold.
+3. Multiply by **1.5** (Math.ceil) for slower-machine headroom.
+4. Round up to a clean number for the assertion threshold.
+
+The +50% headroom is wider than the +25% suggested in the original #46 review,
+based on observed variance on Windows developer machines (single-shot timings
+can vary up to ~3× between quiet and loaded sessions). The bench is opt-in, not
+default-CI, so this trade-off favours stable execution at the cost of slightly
+weaker regression sensitivity. Once the algorithmic fixes in PRs 2-4 land, the
+assertion margin will widen substantially (~100× for the compiler fix), which
+provides a much sharper proof-of-fix signal than the initial calibration.
 
 Each `*.perf.ts` file documents its own calibration data in a header comment so
 that recalibration after a change is auditable. If a fix legitimately reduces
