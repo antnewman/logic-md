@@ -59,7 +59,7 @@ the headroom widening as visible proof of the fix.
 3. Always include a warm-up call before timed measurement (let v8 optimise the
    hot path).
 4. Run `node` directly with the same workload 5 times against `main`, capture
-   raw timings, document them in a header comment, and lock the worst × 1.25.
+   raw timings, document them in a header comment, and lock the worst × 1.5.
 
 ## Why these three?
 

@@ -10,10 +10,12 @@
 // the assertion margin will widen dramatically — exactly the proof-of-fix
 // signal Rain asked for in his sequencing comment.
 //
-// Threshold calibration methodology (per #46 review):
-//   1. Run on `main` 5 times.
+// Threshold calibration methodology (per #46 review, with +50% adjustment
+// noted in the calibration block below):
+//   1. Run on `main` repeatedly across developer-machine sessions with
+//      varying background load.
 //   2. Take the worst observed elapsed time.
-//   3. Multiply by 1.25 (Math.ceil) for slower-machine headroom.
+//   3. Multiply by 1.5 (Math.ceil) for slower-machine headroom.
 //   4. Lock that value in as the assertion threshold.
 //
 // Calibration data captured 2026-05-07 on Node v22.18.0 across multiple
@@ -22,12 +24,13 @@
 //   loaded runs: 2102ms, 2607ms, 2899ms
 //   worst observed = 2899ms  →  ceil(2899 × 1.5) = 4349ms  →  4500ms (rounded)
 //
-// The +50% headroom (rather than the +25% in the original methodology) reflects
-// observed variance on Windows developer machines under realistic background
-// load. The bench is opt-in (`npm run bench`, NOT default `npm test`), so this
-// trade-off favours stable execution at the cost of slightly weaker regression
-// sensitivity. Once Candidate 1's fix lands, the assertion margin will widen
-// from ~1.5× to ~100×, providing a much sharper proof-of-fix signal.
+// The +50% headroom (rather than the +25% suggested in the original #46
+// review) reflects observed variance on Windows developer machines under
+// realistic background load. The bench is opt-in (`npm run bench`, NOT
+// default `npm test`), so this trade-off favours stable execution at the
+// cost of slightly weaker regression sensitivity. Once Candidate 1's fix
+// lands, the assertion margin will widen from ~1.5× to ~100×, providing
+// a much sharper proof-of-fix signal.
 // =============================================================================
 
 import { describe, expect, test } from "vitest";

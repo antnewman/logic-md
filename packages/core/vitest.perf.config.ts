@@ -11,10 +11,14 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
 	test: {
 		include: ["**/__perf__/**/*.perf.ts"],
-		// One fork, serialised, to minimise cross-test interference on timings.
-		// (vitest 4 moved pool sub-options to top level; `pool: "forks"` plus
-		// per-file warm-up is sufficient for stable timings here.)
+		// Serialise execution to minimise cross-test interference on timings.
+		// `pool: "forks"` alone does NOT serialise — in Vitest 4 the option
+		// that guarantees one-file-at-a-time execution is `fileParallelism:
+		// false` at the top of the `test` block. (Pre-Vitest-4 this was
+		// `poolOptions.forks.singleFork`; both `poolOptions` and the per-pool
+		// `singleFork` were removed in the v4 pool rework.)
 		pool: "forks",
+		fileParallelism: false,
 		// 60s ceiling — well above any realistic threshold; only fires on hangs.
 		testTimeout: 60_000,
 	},
